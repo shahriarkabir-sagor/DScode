@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:animateLayoutChanges="true"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+
+	<LinearLayout
+		android:clickable="true"
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:paddingTop="12dp"
+		android:paddingBottom="12dp"
+		android:paddingLeft="10dp"
+		android:paddingRight="10dp"
+		android:onClick="onOtherSettingsItemClick"
+		android:id="@+id/osItem1">
+
+		<ImageView
+			android:src="@drawable/ic_exit_to_app"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="10dp"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Confirm on Exit"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_weight="1.0"/>
+
+		<CheckBox
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/osExitId"/>
+
+	</LinearLayout>
+
+	<View
+		android:background="?android:attr/dividerVertical"
+		android:layout_width="match_parent"
+		android:layout_height="1dp"/>
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:paddingLeft="10dp"
+		android:paddingRight="10dp"
+		android:paddingTop="14dp"
+		android:paddingBottom="14dp"
+		android:onClick="onOtherSettingsItemClick"
+		android:id="@+id/osItem2">
+
+		<ImageView
+			android:src="@drawable/ic_keyboard_settings"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="10dp"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Key bindings"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_weight="1.0"/>
+
+	</LinearLayout>
+
+	<View
+		android:background="?android:attr/dividerVertical"
+		android:layout_width="match_parent"
+		android:layout_height="1dp"/>
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:paddingLeft="10dp"
+		android:paddingRight="10dp"
+		android:paddingTop="6dp"
+		android:paddingBottom="6dp"
+		android:onClick="onOtherSettingsItemClick"
+		android:id="@+id/osItem3">
+
+		<ImageView
+			android:src="@drawable/ic_translate"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="10dp"/>
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1.0">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Change language"
+				android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="English"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:id="@+id/osChanLangSetTvId"/>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+	<View
+		android:background="?android:attr/dividerVertical"
+		android:layout_width="match_parent"
+		android:layout_height="1dp"/>
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:paddingLeft="10dp"
+		android:paddingRight="10dp"
+		android:paddingTop="6dp"
+		android:paddingBottom="6dp"
+		android:onClick="onOtherSettingsItemClick"
+		android:id="@+id/osItem4">
+
+		<ImageView
+			android:src="@drawable/ic_play"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="10dp"/>
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1.0">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Preview mode"
+				android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="not set"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:id="@+id/osPrevModeSetTvId"/>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+	<View
+		android:background="?android:attr/dividerVertical"
+		android:layout_width="match_parent"
+		android:layout_height="1dp"/>
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:paddingTop="12dp"
+		android:paddingBottom="12dp"
+		android:paddingLeft="10dp"
+		android:paddingRight="10dp"
+		android:onClick="onOtherSettingsItemClick"
+		android:id="@+id/osItem5">
+
+		<ImageView
+			android:src="@drawable/ic_console"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="10dp"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Show console"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_weight="1.0"/>
+
+		<CheckBox
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/osConsoleId"/>
+
+	</LinearLayout>
+
+	<View
+		android:background="?android:attr/dividerVertical"
+		android:layout_width="match_parent"
+		android:layout_height="1dp"/>
+
+</LinearLayout>
+

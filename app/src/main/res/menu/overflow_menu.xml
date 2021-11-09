@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<item
+		android:id="@+id/editMenuId"
+		android:title="@string/str_editmenu"
+		android:icon="@drawable/ds_pencil"
+		android:contentDescription="@string/str_editmenu_desc"
+		app:showAsAction="always">
+		<menu>
+			<item
+				android:id="@+id/filePropId"
+				android:icon="@drawable/ic_information"
+				android:title="File Properties"/>
+
+			<item
+				android:id="@+id/renameId"
+				android:icon="@drawable/ic_rename_box"
+				android:title="Rename"/>
+
+			<group
+				android:checkableBehavior="none">
+
+				<item
+					android:id="@+id/cutId"
+					android:icon="@drawable/ic_content_cut"
+					android:title="Cut"/>
+
+				<item
+					android:id="@+id/copyId"
+					android:icon="@drawable/ic_content_copy"
+					android:title="Copy"/>
+
+				<item
+					android:id="@+id/pasteId"
+					android:icon="@drawable/ic_content_paste"
+					android:title="Paste"/>
+
+				<item
+					android:id="@+id/selectAllId"
+					android:icon="@drawable/ic_select_all"
+					android:title="Select All"/>
+
+			</group>
+
+			<item
+				android:id="@+id/insertColorId"
+				android:icon="@drawable/ic_select_color"
+				android:title="Insert color"/>
+
+			<item
+				android:id="@+id/formatId"
+				android:icon="@drawable/ic_format_indent_increase"
+				android:title="Format"/>
+
+			<item
+				android:id="@+id/syntaxHighLightId"
+				android:title="Syntax High Lighting"/>
+
+			<item
+				android:id="@+id/textEncodeId"
+				android:title="Text Encoding"/>
+
+			<item
+				android:id="@+id/readOnlyId"
+				android:icon="@drawable/ic_read_only"
+				android:title="Read only"/>
+
+			<item
+				android:id="@+id/searchId"
+				android:icon="@drawable/ic_magnify"
+				android:title="Search"/>
+
+			<item
+				android:id="@+id/gotoLineId"
+				android:icon="@drawable/ic_subdirectory_arrow_left"
+				android:title="Goto Line"/>
+		</menu>
+
+	</item>
+
+	<item
+		android:id="@+id/overFlowMenuId"
+		android:title="@string/str_editmenu"
+		android:icon="@drawable/ic_dots_vertical"
+		android:contentDescription="@string/str_editmenu_desc"
+		app:showAsAction="always">
+
+		<menu>
+			<item
+				android:id="@+id/newfileId"
+				android:icon="@drawable/ic_file_plus"
+				android:title="New File" />
+
+			<item
+				android:id="@+id/saveId"
+				android:title="Save"
+				android:icon="@drawable/ic_content_save"/>
+
+			<item
+				android:id="@+id/saveAsId"
+				android:title="Save as"
+				android:icon="@drawable/ic_content_save_as"/>
+
+			<item
+				android:id="@+id/filesId"
+				android:icon="@drawable/ic_folder_outline"
+				android:title="Files"/>
+
+			<item
+				android:id="@+id/recentFileId"
+				android:icon="@drawable/ic_history"
+				android:title="Recent Files"/>
+
+			<item
+				android:id="@+id/consoleId"
+				android:icon="@drawable/ic_console"
+				android:title="Console"/>
+
+			<item
+				android:id="@+id/gitId"
+				android:icon="@drawable/ic_git"
+				android:title="Git"/>
+
+			<item
+				android:id="@+id/settingsId"
+				android:icon="@drawable/ic_cog"
+				android:title="Settings"/>
+
+			<item
+				android:id="@+id/helpId"
+				android:icon="@drawable/ic_help_circle"
+				android:title="Help"/>
+
+			<item
+				android:id="@+id/exitId"
+				android:icon="@drawable/ic_exit_to_app"
+				android:title="Exit"/>
+		</menu>
+
+	</item>
+
+</menu>

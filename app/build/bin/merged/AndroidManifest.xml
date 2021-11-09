@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="bd.dkltd.dscode"
+    android:versionCode="1"
+    android:versionName="1.0-alpha01" >
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="29" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name="bd.dkltd.dscode.Applications"
+        android:allowBackup="true"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
+        android:resizeableActivity="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="bd.dkltd.dscode.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="bd.dkltd.dscode.DebugActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="bd.dkltd.dscode.SettingsActivity"
+            android:label="Settings"
+            android:screenOrientation="unspecified" />
+        <activity
+            android:name="bd.dkltd.dscode.OtherSettingsActivity"
+            android:label="Other Settings"
+            android:screenOrientation="unspecified" />
+        <activity
+            android:name="bd.dkltd.dscode.EditorSettings"
+            android:label="Editor Settings"
+            android:screenOrientation="unspecified" />
+        <activity
+            android:name="bd.dkltd.dscode.AboutActivity"
+            android:label="About"
+            android:screenOrientation="unspecified" />
+        <activity
+            android:name="bd.dkltd.dscode.BackRestActivity"
+            android:label="Backup/Restore"
+            android:screenOrientation="unspecified" />
+        <activity
+            android:name="bd.dkltd.dscode.RemoteRepoActivity"
+            android:label="Remote Repo"
+            android:screenOrientation="unspecified" />
+        <activity
+            android:name="bd.dkltd.dscode.HelpActivity"
+            android:label="Help"
+            android:screenOrientation="unspecified" />
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="4.0" />
+
+        <activity
+            android:name="bd.dkltd.dscode.KeyBindingActivity"
+            android:label="KeyBinding"
+            android:screenOrientation="unspecified" />
+        <activity
+            android:name="bd.dkltd.dscode.FilesActivity"
+            android:label="File Browser"
+            android:screenOrientation="unspecified" />
+        <activity
+            android:name="bd.dkltd.dscode.ListFile"
+            android:label="File Browser"
+            android:screenOrientation="unspecified" />
+    </application>
+
+</manifest>

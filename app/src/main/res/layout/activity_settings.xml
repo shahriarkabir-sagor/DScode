@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:orientation="vertical"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content">
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:padding="20dp"
+			android:onClick="onSettingItemClick"
+			android:id="@+id/aboutItemId">
+
+			<ImageView
+				android:src="@drawable/ic_app_logo"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingRight="20dp"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="About"
+				android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+		</LinearLayout>
+
+		<View
+			android:background="?android:attr/dividerVertical"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"/>
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:padding="20dp"
+			android:onClick="onSettingItemClick"
+			android:id="@+id/backRestItemId">
+
+			<ImageView
+				android:src="@drawable/ic_backup_restore"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingRight="20dp"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Backup/Restore"
+				android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+		</LinearLayout>
+
+		<View
+			android:background="?android:attr/dividerVertical"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"/>
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:padding="20dp"
+			android:onClick="onSettingItemClick"
+			android:id="@+id/esItemId">
+
+			<ImageView
+				android:src="@drawable/ic_format_overline"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingRight="20dp"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Editor settings"
+				android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+		</LinearLayout>
+
+		<View
+			android:background="?android:attr/dividerVertical"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"/>
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:padding="20dp"
+			android:onClick="onSettingItemClick"
+			android:id="@+id/osItemId">
+
+			<ImageView
+				android:src="@drawable/ic_tune"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingRight="20dp"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Other settings"
+				android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+		</LinearLayout>
+
+		<View
+			android:background="?android:attr/dividerVertical"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"/>
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:padding="20dp"
+			android:onClick="onSettingItemClick"
+			android:id="@+id/themeItemId">
+
+			<ImageView
+				android:src="@drawable/ic_palette"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingRight="20dp"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Theme"
+				android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+		</LinearLayout>
+
+		<View
+			android:background="?android:attr/dividerVertical"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"/>
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_horizontal">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Connect with Dev"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:gravity="center_horizontal"
+				android:padding="5dp">
+
+				<ImageView
+					android:src="@drawable/ic_instagram"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="5dp"
+					android:layout_marginRight="5dp"
+					android:onClick="onSocialItemClick"
+					android:id="@+id/instaId"/>
+
+				<ImageView
+					android:src="@drawable/ic_telegram"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="5dp"
+					android:layout_marginRight="5dp"
+					android:onClick="onSocialItemClick"
+					android:id="@+id/tgId"/>
+
+				<ImageView
+					android:src="@drawable/ic_github"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="5dp"
+					android:layout_marginRight="5dp"
+					android:onClick="onSocialItemClick"
+					android:id="@+id/ghId"/>
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</LinearLayout>
+

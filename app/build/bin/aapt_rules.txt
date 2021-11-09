@@ -1,0 +1,201 @@
+# view res/layout/abc_alert_dialog_button_bar_material.xml #generated:43
+# view res/layout/abc_alert_dialog_material.xml #generated:52
+# view res/layout/abc_alert_dialog_material.xml #generated:66
+# view res/layout/abc_alert_dialog_title_material.xml #generated:56
+# view watch-v20/res/layout-watch-v20/abc_alert_dialog_title_material.xml #generated:53
+-keep class android.widget.Space { <init>(...); }
+
+# view res/layout/abc_select_dialog_material.xml #generated:23
+-keep class androidx.appcompat.app.AlertController$RecycleListView { <init>(...); }
+
+# view res/layout/abc_action_menu_item_layout.xml #generated:17
+-keep class androidx.appcompat.view.menu.ActionMenuItemView { <init>(...); }
+
+# view res/layout/abc_expanded_menu_layout.xml #generated:17
+-keep class androidx.appcompat.view.menu.ExpandedMenuView { <init>(...); }
+
+# view res/layout/abc_cascading_menu_item_layout.xml #generated:20
+# view res/layout/abc_list_menu_item_layout.xml #generated:17
+# view res/layout/abc_popup_menu_item_layout.xml #generated:17
+-keep class androidx.appcompat.view.menu.ListMenuItemView { <init>(...); }
+
+# view res/layout/abc_screen_toolbar.xml #generated:27
+# view v26/res/layout-v26/abc_screen_toolbar.xml #generated:27
+-keep class androidx.appcompat.widget.ActionBarContainer { <init>(...); }
+
+# view res/layout/abc_action_mode_bar.xml #generated:19
+# view res/layout/abc_screen_toolbar.xml #generated:43
+# view v26/res/layout-v26/abc_screen_toolbar.xml #generated:44
+-keep class androidx.appcompat.widget.ActionBarContextView { <init>(...); }
+
+# view res/layout/abc_screen_toolbar.xml #generated:17
+# view v26/res/layout-v26/abc_screen_toolbar.xml #generated:17
+-keep class androidx.appcompat.widget.ActionBarOverlayLayout { <init>(...); }
+
+# view res/layout/abc_action_menu_layout.xml #generated:17
+-keep class androidx.appcompat.widget.ActionMenuView { <init>(...); }
+
+# view res/layout/abc_activity_chooser_view.xml #generated:19
+-keep class androidx.appcompat.widget.ActivityChooserView$InnerLayout { <init>(...); }
+
+# view res/layout/abc_alert_dialog_material.xml #generated:18
+-keep class androidx.appcompat.widget.AlertDialogLayout { <init>(...); }
+
+# view res/layout/abc_alert_dialog_button_bar_material.xml #generated:26
+# view watch-v20/res/layout-watch-v20/abc_alert_dialog_button_bar_material.xml #generated:18
+-keep class androidx.appcompat.widget.ButtonBarLayout { <init>(...); }
+
+# view res/layout/abc_screen_content_include.xml #generated:19
+-keep class androidx.appcompat.widget.ContentFrameLayout { <init>(...); }
+
+# view res/layout/abc_alert_dialog_title_material.xml #generated:45
+# view watch-v20/res/layout-watch-v20/abc_alert_dialog_title_material.xml #generated:44
+-keep class androidx.appcompat.widget.DialogTitle { <init>(...); }
+
+# view res/layout/abc_screen_simple_overlay_action_mode.xml #generated:23
+-keep class androidx.appcompat.widget.FitWindowsFrameLayout { <init>(...); }
+
+# view res/layout/abc_dialog_title_material.xml #generated:22
+# view res/layout/abc_screen_simple.xml #generated:17
+-keep class androidx.appcompat.widget.FitWindowsLinearLayout { <init>(...); }
+
+# view res/layout/abc_search_view.xml #generated:75
+-keep class androidx.appcompat.widget.SearchView$SearchAutoComplete { <init>(...); }
+
+# view res/layout/abc_screen_toolbar.xml #generated:36
+# view res/layout/layout_appbar.xml #generated:14
+# view v26/res/layout-v26/abc_screen_toolbar.xml #generated:37
+-keep class androidx.appcompat.widget.Toolbar { <init>(...); }
+
+# view res/layout/abc_screen_simple.xml #generated:25
+# view res/layout/abc_screen_simple_overlay_action_mode.xml #generated:32
+-keep class androidx.appcompat.widget.ViewStubCompat { <init>(...); }
+
+# view res/layout/design_bottom_sheet_dialog.xml #generated:26
+-keep class androidx.coordinatorlayout.widget.CoordinatorLayout { <init>(...); }
+
+# view res/layout/abc_alert_dialog_material.xml #generated:41
+-keep class androidx.core.widget.NestedScrollView { <init>(...); }
+
+# view res/layout/activity_main.xml #generated:2
+-keep class androidx.drawerlayout.widget.DrawerLayout { <init>(...); }
+
+# view res/layout/activity_files.xml #generated:47
+# view res/layout/activity_listfile.xml #generated:40
+-keep class androidx.recyclerview.widget.RecyclerView { <init>(...); }
+
+# view AndroidManifest.xml #generated:52
+-keep class bd.dkltd.dscode.AboutActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:15
+-keep class bd.dkltd.dscode.Applications { <init>(...); }
+
+# view AndroidManifest.xml #generated:56
+-keep class bd.dkltd.dscode.BackRestActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:37
+-keep class bd.dkltd.dscode.DebugActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:48
+-keep class bd.dkltd.dscode.EditorSettings { <init>(...); }
+
+# view AndroidManifest.xml #generated:77
+-keep class bd.dkltd.dscode.FilesActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:64
+-keep class bd.dkltd.dscode.HelpActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:73
+-keep class bd.dkltd.dscode.KeyBindingActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:81
+-keep class bd.dkltd.dscode.ListFile { <init>(...); }
+
+# view AndroidManifest.xml #generated:26
+-keep class bd.dkltd.dscode.MainActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:44
+-keep class bd.dkltd.dscode.OtherSettingsActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:60
+-keep class bd.dkltd.dscode.RemoteRepoActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:40
+-keep class bd.dkltd.dscode.SettingsActivity { <init>(...); }
+
+# view res/layout/layout_appbar.xml #generated:9
+-keep class com.google.android.material.appbar.AppBarLayout { <init>(...); }
+
+# view res/layout/design_bottom_navigation_item.xml #generated:27
+-keep class com.google.android.material.internal.BaselineLayout { <init>(...); }
+
+# view res/layout/design_text_input_password_icon.xml #generated:18
+-keep class com.google.android.material.internal.CheckableImageButton { <init>(...); }
+
+# view res/layout/design_navigation_item.xml #generated:17
+-keep class com.google.android.material.internal.NavigationMenuItemView { <init>(...); }
+
+# view res/layout/design_navigation_menu.xml #generated:17
+-keep class com.google.android.material.internal.NavigationMenuView { <init>(...); }
+
+# view res/layout/activity_main.xml #generated:18
+-keep class com.google.android.material.navigation.NavigationView { <init>(...); }
+
+# view res/layout/design_layout_snackbar.xml #generated:18
+# view res/layout/mtrl_layout_snackbar.xml #generated:18
+# view sw600dp-v13/res/layout-sw600dp-v13/design_layout_snackbar.xml #generated:18
+# view sw600dp-v13/res/layout-sw600dp-v13/mtrl_layout_snackbar.xml #generated:18
+-keep class com.google.android.material.snackbar.Snackbar$SnackbarLayout { <init>(...); }
+
+# view res/layout/design_layout_snackbar_include.xml #generated:18
+# view res/layout/mtrl_layout_snackbar_include.xml #generated:18
+-keep class com.google.android.material.snackbar.SnackbarContentLayout { <init>(...); }
+
+# onClick res/layout/activity_editor_settings.xml #generated:100
+# onClick res/layout/activity_editor_settings.xml #generated:151
+# onClick res/layout/activity_editor_settings.xml #generated:189
+# onClick res/layout/activity_editor_settings.xml #generated:19
+# onClick res/layout/activity_editor_settings.xml #generated:227
+# onClick res/layout/activity_editor_settings.xml #generated:255
+# onClick res/layout/activity_editor_settings.xml #generated:307
+# onClick res/layout/activity_editor_settings.xml #generated:335
+# onClick res/layout/activity_editor_settings.xml #generated:373
+# onClick res/layout/activity_editor_settings.xml #generated:401
+# onClick res/layout/activity_editor_settings.xml #generated:429
+# onClick res/layout/activity_editor_settings.xml #generated:457
+# onClick res/layout/activity_editor_settings.xml #generated:47
+# onClick res/layout/activity_editor_settings.xml #generated:495
+# onClick res/layout/activity_editor_settings.xml #generated:523
+# onClick res/layout/activity_editor_settings.xml #generated:561
+# onClick res/layout/activity_editor_settings.xml #generated:589
+# onClick res/layout/activity_editor_settings.xml #generated:617
+# onClick res/layout/activity_editor_settings.xml #generated:645
+# onClick res/layout/activity_editor_settings.xml #generated:683
+# onClick res/layout/activity_editor_settings.xml #generated:711
+-keepclassmembers class * { *** onEditorSettingItemClick(...); }
+
+# onClick res/layout/nav_header_main.xml #generated:19
+# onClick res/layout/nav_header_main.xml #generated:28
+# onClick res/layout/nav_header_main.xml #generated:37
+# onClick res/layout/nav_header_main.xml #generated:46
+-keepclassmembers class * { *** onNavImageClick(...); }
+
+# onClick res/layout/activity_other_settings.xml #generated:10
+# onClick res/layout/activity_other_settings.xml #generated:126
+# onClick res/layout/activity_other_settings.xml #generated:172
+# onClick res/layout/activity_other_settings.xml #generated:48
+# onClick res/layout/activity_other_settings.xml #generated:80
+-keepclassmembers class * { *** onOtherSettingsItemClick(...); }
+
+# onClick res/layout/activity_settings.xml #generated:126
+# onClick res/layout/activity_settings.xml #generated:14
+# onClick res/layout/activity_settings.xml #generated:42
+# onClick res/layout/activity_settings.xml #generated:70
+# onClick res/layout/activity_settings.xml #generated:98
+-keepclassmembers class * { *** onSettingItemClick(...); }
+
+# onClick res/layout/activity_settings.xml #generated:172
+# onClick res/layout/activity_settings.xml #generated:181
+# onClick res/layout/activity_settings.xml #generated:190
+-keepclassmembers class * { *** onSocialItemClick(...); }
+

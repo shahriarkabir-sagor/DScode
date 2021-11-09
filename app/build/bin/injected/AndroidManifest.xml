@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	package="bd.dkltd.dscode"
+	android:versionCode="1"
+	android:versionName="1.0-alpha01">
+
+	<uses-sdk
+		android:minSdkVersion="21"
+		android:targetSdkVersion="29"/>
+
+	<uses-permission
+		android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+	<uses-permission
+		android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+	<uses-permission
+		android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+
+	<application
+		android:allowBackup="true"
+		android:icon="@mipmap/ic_launcher"
+		android:roundIcon="@mipmap/ic_launcher_round"
+		android:label="@string/app_name"
+		android:theme="@style/AppTheme"
+		android:largeHeap="true"
+		android:name=".Applications"
+		android:resizeableActivity="true"
+		android:requestLegacyExternalStorage="true">
+
+		<activity
+			android:name=".MainActivity"
+			android:theme="@style/AppTheme.NoActionBar"
+			android:label="@string/app_name"
+			android:windowSoftInputMode="stateVisible">
+
+			<intent-filter>
+
+				<action
+					android:name="android.intent.action.MAIN"/>
+
+				<category
+					android:name="android.intent.category.LAUNCHER"/>
+
+			</intent-filter>
+
+		</activity>
+
+		<activity
+			android:name=".DebugActivity"
+			android:screenOrientation="portrait"/>
+
+		<activity
+			android:name=".SettingsActivity"
+			android:screenOrientation="unspecified"
+			android:label="Settings"/>
+
+		<activity
+			android:name=".OtherSettingsActivity"
+			android:screenOrientation="unspecified"
+			android:label="Other Settings"/>
+
+		<activity
+			android:name=".EditorSettings"
+			android:screenOrientation="unspecified"
+			android:label="Editor Settings"/>
+
+		<activity
+			android:name=".AboutActivity"
+			android:screenOrientation="unspecified"
+			android:label="About"/>
+
+		<activity
+			android:name=".BackRestActivity"
+			android:screenOrientation="unspecified"
+			android:label="Backup/Restore"/>
+
+		<activity
+			android:name=".RemoteRepoActivity"
+			android:screenOrientation="unspecified"
+			android:label="Remote Repo"/>
+
+		<activity
+			android:name=".HelpActivity"
+			android:screenOrientation="unspecified"
+			android:label="Help"/>
+
+		<meta-data
+			android:name="android.max_aspect"
+			android:value="4.0"/>
+
+		<activity
+			android:name=".KeyBindingActivity"
+			android:screenOrientation="unspecified"
+			android:label="KeyBinding"/>
+
+		<activity
+			android:name=".FilesActivity"
+			android:screenOrientation="unspecified"
+			android:label="File Browser"/>
+
+		<activity
+			android:name=".ListFile"
+			android:screenOrientation="unspecified"
+			android:label="File Browser"/>
+
+	</application>
+
+</manifest>
+

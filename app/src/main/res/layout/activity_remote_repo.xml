@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:padding="16dp">
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="24dp"
+		android:background="#FFFFFFFF">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Get Repo form one of the following"
+			android:layout_gravity="center_horizontal"/>
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:layout_marginTop="10dp"
+			android:paddingTop="8dp"
+			android:paddingBottom="8dp"
+			android:background="#FF000000">
+
+			<ImageView
+				android:tint="@color/white"
+				android:src="@drawable/ic_github"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="GitHub"
+				android:textColor="@color/white"
+				android:layout_marginLeft="4dp"/>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:layout_marginTop="10dp"
+			android:paddingBottom="8dp"
+			android:paddingTop="8dp"
+			android:background="#FFE45900">
+
+			<ImageView
+				android:tint="@color/white"
+				android:src="@drawable/ic_gitlab"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="GitLab"
+				android:textColor="@color/white"
+				android:layout_marginLeft="4dp"/>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:layout_marginTop="10dp"
+			android:paddingTop="8dp"
+			android:paddingBottom="8dp"
+			android:background="#FF006D9C">
+
+			<ImageView
+				android:tint="@color/white"
+				android:src="@drawable/ic_bitbucket"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+			<TextView
+				android:textColor="@color/white"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="BitBucket"/>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</LinearLayout>
+

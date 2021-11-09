@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">DOCTYPE studio</string>
+	<string name="str_editmenu">Edit Options</string>
+	<string name="str_editmenu_desc">This menu contains some option that can be used to copy paste select and insert color.</string>
+    
+	<string-array name="app_font_name_array">
+		<item>Default</item>
+		<item>Noto sans</item>
+	</string-array>
+	
+	<string-array name="cursor_controller_size">
+		<item>None</item>
+		<item>Small</item>
+		<item>Large</item>
+	</string-array>
+	
+	<string-array name="active_file">
+		<item>Header</item>
+		<item>Sidebar</item>
+	</string-array>
+	
+	<string-array name="app_langs">
+		<item>English</item>
+		<item>Bengali</item>
+	</string-array>
+	
+	<string-array name="preview_mode">
+		<item>Not set</item>
+		<item>In App</item>
+		<item>Browser</item>
+	</string-array>
+	
+</resources>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:fillViewport="true"
+	android:layout_width="match_parent"
+	android:layout_height="60dp"
+	android:background="@color/colorPrimary"
+	android:gravity="center_vertical"
+	android:layout_marginTop="24dp">
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:weightSum="4.0"
+		android:gravity="center_vertical">
+
+		<ImageView
+			android:tint="@color/white"
+			android:src="@drawable/ic_folder_outline"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1.0"
+			android:onClick="onNavImageClick"
+			android:id="@+id/fileImgView"/>
+
+		<ImageView
+			android:tint="@color/white"
+			android:src="@drawable/ic_source_branch"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1.0"
+			android:onClick="onNavImageClick"
+			android:id="@+id/gitImgView"/>
+
+		<ImageView
+			android:tint="@color/white"
+			android:src="@drawable/ic_play"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1.0"
+			android:onClick="onNavImageClick"
+			android:id="@+id/playImgView"/>
+
+		<ImageView
+			android:tint="@color/white"
+			android:src="@drawable/ic_puzzle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1.0"
+			android:onClick="onNavImageClick"
+			android:id="@+id/addonImgView"/>
+
+	</LinearLayout>
+
+</LinearLayout>
+

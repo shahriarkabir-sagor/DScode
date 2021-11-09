@@ -1,0 +1,739 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:animateLayoutChanges="true"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:padding="10dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esAnimItemId">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Animation"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_weight="1.0"/>
+
+				<CheckBox
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/animCheckboxId"/>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingLeft="10dp"
+				android:paddingRight="10dp"
+				android:paddingTop="6dp"
+				android:paddingBottom="6dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esAutoSaveItemId">
+
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Autosave"
+						android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+					<LinearLayout
+						android:orientation="horizontal"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content">
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="300"
+							android:textAppearance="?android:attr/textAppearanceSmall"
+							android:id="@+id/esAStv"/>
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="sec"
+							android:textAppearance="?android:attr/textAppearanceSmall"
+							android:layout_marginLeft="4dp"
+							android:id="@+id/esAutoSave2ndary"/>
+
+					</LinearLayout>
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingLeft="10dp"
+				android:paddingRight="10dp"
+				android:paddingTop="6dp"
+				android:paddingBottom="6dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esBeautifySaveItemId">
+
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Beautify on save"
+						android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+					<LinearLayout
+						android:orientation="horizontal"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content">
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="except"
+							android:textAppearance="?android:attr/textAppearanceSmall"
+							android:layout_marginRight="4dp"/>
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="*"
+							android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+					</LinearLayout>
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingLeft="10dp"
+				android:paddingRight="10dp"
+				android:paddingTop="6dp"
+				android:paddingBottom="6dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esCCsizeItemId">
+
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Cursor controller size"
+						android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="none"
+						android:textAppearance="?android:attr/textAppearanceSmall"
+						android:id="@+id/esCCStvId"/>
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingLeft="10dp"
+				android:paddingRight="10dp"
+				android:paddingTop="6dp"
+				android:paddingBottom="6dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esDefaultFontItemId">
+
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Editor Font"
+						android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="default"
+						android:textAppearance="?android:attr/textAppearanceSmall"
+						android:id="@+id/esEdtrFontTvId"/>
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:padding="10dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esFbtnItemId">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Floating Button"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_weight="1.0"/>
+
+				<CheckBox
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/floatingBtnCboxId"/>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingLeft="10dp"
+				android:paddingRight="10dp"
+				android:paddingTop="6dp"
+				android:paddingBottom="6dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esFontSizeItemId">
+
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Font size"
+						android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+					<LinearLayout
+						android:orientation="horizontal"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content">
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="12"
+							android:textAppearance="?android:attr/textAppearanceSmall"
+							android:layout_marginRight="4dp"
+							android:id="@+id/esFStv"/>
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="px"
+							android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+					</LinearLayout>
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:padding="10dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esFScrnItemId">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Full screen"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_weight="1.0"/>
+
+				<CheckBox
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/fullScreenCboxId"/>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingLeft="10dp"
+				android:paddingRight="10dp"
+				android:paddingTop="6dp"
+				android:paddingBottom="6dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esLineHeightItemId">
+
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Line height"
+						android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="1.5"
+						android:textAppearance="?android:attr/textAppearanceSmall"
+						android:id="@+id/esLHtv"/>
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:padding="10dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esLnmbrItemId">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Show line number"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_weight="1.0"/>
+
+				<CheckBox
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/lineNmbrCboxId"/>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:padding="10dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esSerrItemId">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Check syntax error"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_weight="1.0"/>
+
+				<CheckBox
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/syntaxErrorCboxId"/>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:padding="10dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esAcmpltItemId">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Live auto completion"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_weight="1.0"/>
+
+				<CheckBox
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/autoCmpltCboxId"/>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingLeft="10dp"
+				android:paddingRight="10dp"
+				android:paddingTop="6dp"
+				android:paddingBottom="6dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esActiveFileItemId">
+
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Active Files"
+						android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="header"
+						android:textAppearance="?android:attr/textAppearanceSmall"
+						android:id="@+id/esAFtvId"/>
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:padding="10dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esQtoolItemId">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Quick tool"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_weight="1.0"/>
+
+				<CheckBox
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/qToolCboxId"/>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingLeft="10dp"
+				android:paddingRight="10dp"
+				android:paddingTop="6dp"
+				android:paddingBottom="6dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esScrollbarSizeItemId">
+
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Scrollbar size"
+						android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="20"
+						android:textAppearance="?android:attr/textAppearanceSmall"
+						android:id="@+id/esSBStv"/>
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:padding="10dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esPmrgnItemId">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Show print margin"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_weight="1.0"/>
+
+				<CheckBox
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/printMrgnCboxId"/>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:padding="10dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esSspaceItemId">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Show space"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_weight="1.0"/>
+
+				<CheckBox
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/showSpaceCboxId"/>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:padding="10dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esStabItemId">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Soft tab"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_weight="1.0"/>
+
+				<CheckBox
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/softTabCboxId"/>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingLeft="10dp"
+				android:paddingRight="10dp"
+				android:paddingTop="6dp"
+				android:paddingBottom="6dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esTabSizeItemId">
+
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Tab size"
+						android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="2"
+						android:textAppearance="?android:attr/textAppearanceSmall"
+						android:id="@+id/esTStv"/>
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:padding="10dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esTwrapItemId">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Text wrap"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_weight="1.0"/>
+
+				<CheckBox
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/textWrapCboxId"/>
+
+			</LinearLayout>
+
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:padding="10dp"
+				android:onClick="onEditorSettingItemClick"
+				android:id="@+id/esVtouchItemId">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Vibrate on tap"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_weight="1.0"/>
+
+				<CheckBox
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/vTouchCboxId"/>
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+	</ScrollView>
+
+</LinearLayout>
+
