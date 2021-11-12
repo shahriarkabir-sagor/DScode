@@ -144,8 +144,10 @@ public class FilesActivity extends AppCompatActivity {
 				this.finish();
 				return true;
 			case R.id.fItem3:
-				MyDialogInputPath iPath = new MyDialogInputPath();
-				iPath.show(getFragmentManager(),"Choose path");
+				MyDialogInputPath iPathChooser = new MyDialogInputPath();
+                iPathChooser.setDialogTitle("Choose path");
+                iPathChooser.setCancelable(false);
+				iPathChooser.show(getFragmentManager(),"Choose path");
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);

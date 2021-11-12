@@ -23,10 +23,11 @@ public class EditorSettings extends AppCompatActivity implements OnCheckedChange
 
 	private CheckBox animCbox,floatingBtnCbox,fullScreenCbox,lineNmbrCbox,syntaxErrorCbox,autoCmpltCbox,qToolCbox,printMrgnCbox,showSpaceCbox,softTabCbox,textWrapCbox,vTouchCbox;
 	private boolean boolAnim,boolFbtn,boolFscreen,boolLnmbr,boolSErr,boolAcmplt,boolqTool,boolPrintMrgn,boolShowSpace,boolSoftTab,boolTxtWrap,boolVtouch,boolAutoSave;
-	private TextView ccsTv,efTv,afpTv,autoSaveTv,autoSaveTv2,fontSizeTv,scrollBTv,tabSizeTv;
+	private TextView ccsTv,efTv,afpTv,autoSaveTv,autoSaveTv2,fontSizeTv,scrollBTv,tabSizeTv,lineHeightTv;
 	private String[] ccsStrArray,efStrArray,afpStrArray;
 	private int ccsIntPos,efIntPos,afpIntPos;
     private int autoSaveTime,fontSize,scrollBarSize,tabSize;
+    private float lineHeight;
 	private SharedPreferences sPrefs;
 	private SharedPreferences.Editor sPrefsEditor;
 	
@@ -131,6 +132,8 @@ public class EditorSettings extends AppCompatActivity implements OnCheckedChange
         fontSizeTv = findViewById(R.id.esFStv);
         scrollBTv = findViewById(R.id.esSBStv);
         tabSizeTv = findViewById(R.id.esTStv);
+        lineHeightTv = findViewById(R.id.esLHtv);
+        
 		//Get array
 		ccsStrArray = getResources().getStringArray(R.array.cursor_controller_size);
 		efStrArray = getResources().getStringArray(R.array.app_font_name_array);
@@ -139,6 +142,7 @@ public class EditorSettings extends AppCompatActivity implements OnCheckedChange
 		ccsIntPos = efIntPos = afpIntPos = 0;
         //initiate number,decimal variable
         autoSaveTime = fontSize = scrollBarSize = tabSize = 0;
+        lineHeight = (float) 0.0;
 		
 		
 		//value
@@ -204,7 +208,22 @@ public class EditorSettings extends AppCompatActivity implements OnCheckedChange
             autoSaveTv.setText("Disabled");
             autoSaveTv2.setVisibility(View.INVISIBLE);
         }
-        fontSize = scrollBarSize = tabSize = 0;
+        fontSize = sPrefs.getInt("keyIntFontSize",fontSize);
+        if (fontSize >= 4 && fontSize <= 48){
+            fontSizeTv.setText(String.valueOf(fontSize));
+        }
+        scrollBarSize = sPrefs.getInt("keyIntScrollBarSize",scrollBarSize);
+        if (scrollBarSize >= 5 && scrollBarSize <= 20){
+            scrollBTv.setText(String.valueOf(scrollBarSize));
+        }
+        tabSize = sPrefs.getInt("keyIntTabSize",tabSize);
+        if (tabSize >= 2 && tabSize <= 20){
+            tabSizeTv.setText(String.valueOf(tabSize));
+        }
+        lineHeight = sPrefs.getFloat("keyFloatLineHeight",lineHeight);
+        if (lineHeight >= 1 && lineHeight <= 100) {
+            lineHeightTv.setText(String.valueOf(lineHeight));
+        }
 
 		// Set checkbox value
 		animCbox.setChecked(boolAnim);
@@ -329,7 +348,7 @@ public class EditorSettings extends AppCompatActivity implements OnCheckedChange
         int minValue = 1;
         int maxValue = 3600;
 		MyDialogNumberFragment autoSaveDialog = new MyDialogNumberFragment(getApplicationContext(),1);
-		autoSaveDialog.setDialogTitle("Enter time in second(1-3600)");
+		autoSaveDialog.setDialogTitle("Enter time in second(1-3600) or 0");
         autoSaveDialog.setMinDialogValue(minValue);
         autoSaveDialog.setMaxDialogValue(maxValue);
 		autoSaveDialog.setDialogZero(true);
@@ -342,6 +361,7 @@ public class EditorSettings extends AppCompatActivity implements OnCheckedChange
                     if (value == 0) {
                         sPrefsEditor.putBoolean("keyBoolAutoSave",false);
                         sPrefsEditor.apply();
+                        autoSaveTime = value;
                         //Now update textview
                         autoSaveTv.setText("Disabled");
                         autoSaveTv2.setVisibility(View.INVISIBLE);
@@ -349,6 +369,7 @@ public class EditorSettings extends AppCompatActivity implements OnCheckedChange
                         sPrefsEditor.putInt("keyIntAutoSave",value);
                         sPrefsEditor.putBoolean("keyBoolAutoSave",true);
                         sPrefsEditor.apply();
+                        autoSaveTime = value;
                         //Now update textview
                         autoSaveTv.setText(String.valueOf(value));
                         autoSaveTv2.setVisibility(View.VISIBLE);
@@ -359,26 +380,68 @@ public class EditorSettings extends AppCompatActivity implements OnCheckedChange
 	}
 
 	private void esFontSize() {
-		final MyDialogNumberFragment fSizeDlog = new MyDialogNumberFragment(getApplicationContext(),2);
+        int minValue = 4;
+        int maxValue = 48;
+		MyDialogNumberFragment fSizeDlog = new MyDialogNumberFragment(getApplicationContext(),2);
 		fSizeDlog.setDialogTitle("Set font size (4-48)");
-		fSizeDlog.setMinDialogValue(4);
-		fSizeDlog.setMaxDialogValue(48);
+		fSizeDlog.setMinDialogValue(minValue);
+		fSizeDlog.setMaxDialogValue(maxValue);
+        fSizeDlog.setPlaceHolderValue(fontSize);
+        fSizeDlog.setDialogPositiveListener(new MyDialogNumberFragment.DialogPositiveListener(){
+
+                @Override
+                public void onPositiveListen(int requestCode, int value) {
+                    sPrefsEditor.putInt("keyIntFontSize",value);
+                    sPrefsEditor.apply();
+                    fontSize = value;
+                    //Now update textview
+                    fontSizeTv.setText(String.valueOf(value));
+                }
+            });
 		fSizeDlog.show(getFragmentManager(),"Font Size");
 	}
 
 	private void esScrollbarSize() {
+        int minValue = 5;
+        int maxValue = 20;
 		MyDialogNumberFragment fSizeDlog = new MyDialogNumberFragment(getApplicationContext(),3);
-		fSizeDlog.setDialogTitle("Set scrollbar size (1-1000)");
-		fSizeDlog.setMinDialogValue(1);
-		fSizeDlog.setMaxDialogValue(1000);
+		fSizeDlog.setDialogTitle("Set scrollbar size (5-20)");
+		fSizeDlog.setMinDialogValue(minValue);
+		fSizeDlog.setMaxDialogValue(maxValue);
+        fSizeDlog.setPlaceHolderValue(scrollBarSize);
+        fSizeDlog.setDialogPositiveListener(new MyDialogNumberFragment.DialogPositiveListener(){
+
+                @Override
+                public void onPositiveListen(int requestCode, int value) {
+                    sPrefsEditor.putInt("keyIntScrollBarSize",value);
+                    sPrefsEditor.apply();
+                    scrollBarSize = value;
+                    //Now update textView
+                    scrollBTv.setText(String.valueOf(value));
+                }
+            });
 		fSizeDlog.show(getFragmentManager(),"Scrollbar size");
 	}
 
 	private void esTabSize() {
+        int minValue = 2;
+        int maxValue = 20;
 		MyDialogNumberFragment tSizeDlog = new MyDialogNumberFragment(getApplicationContext(),4);
-		tSizeDlog.setDialogTitle("Set tab size (1-100)");
-		tSizeDlog.setMinDialogValue(1);
-		tSizeDlog.setMaxDialogValue(100);
+		tSizeDlog.setDialogTitle("Set tab size (2-20)");
+		tSizeDlog.setMinDialogValue(minValue);
+		tSizeDlog.setMaxDialogValue(maxValue);
+        tSizeDlog.setPlaceHolderValue(tabSize);
+        tSizeDlog.setDialogPositiveListener(new MyDialogNumberFragment.DialogPositiveListener(){
+
+                @Override
+                public void onPositiveListen(int requestCode, int value) {
+                    sPrefsEditor.putInt("keyIntTabSize",value);
+                    sPrefsEditor.apply();
+                    tabSize = value;
+                    //Now update TextView
+                    tabSizeTv.setText(String.valueOf(value));
+                }
+            });
 		tSizeDlog.show(getFragmentManager(),"Tab Size");
 	}
 
@@ -413,10 +476,24 @@ public class EditorSettings extends AppCompatActivity implements OnCheckedChange
 	}
 
 	private void esLineHeight() {
+        int minValue = 1;
+        int maxValue= 100;
 		MyDialogDecimalFragment lHeightDlog = new MyDialogDecimalFragment();
 		lHeightDlog.setDialogTitle("Set Line Height (0.0 - 100.0)");
-		lHeightDlog.setMinDialogValue(0);
-		lHeightDlog.setMaxDialogValue(100);
+		lHeightDlog.setMinDialogValue(minValue);
+		lHeightDlog.setMaxDialogValue(maxValue);
+        lHeightDlog.setPlaceHolderValue(lineHeight);
+        lHeightDlog.setDialogPositiveListener(new MyDialogDecimalFragment.DialogPositiveListener(){
+
+                @Override
+                public void onPositiveListen(int requestCode, float value) {
+                    sPrefsEditor.putFloat("keyFloatLineHeight",value);
+                    sPrefsEditor.apply();
+                    lineHeight = value;
+                    //Now upate the TextView
+                    lineHeightTv.setText(String.valueOf(value));
+                }
+            });
 		lHeightDlog.show(getFragmentManager(),"Line Height");
 	}
 

@@ -100,7 +100,6 @@ public class MyDialogFragment extends DialogFragment {
 		builder.setPositiveButton(dialogPositiveText, dialogPositiveListener);
 		builder.setNegativeButton(dialogNegativeText, dialogNegativeListener);
 		edt.setText(dialogEtText);
-		edt.requestFocus(); 
 		Dialog dialog = builder.create();
 		return dialog;
 	}

@@ -16,7 +16,8 @@ public class MyDialogDecimalFragment extends DialogFragment {
     private Context Context;
     private int RequestCode;
     private String DialogTitle,DialogPositiveButton,DialogNegativeButton;
-    private int minDialogValue,maxDialogValue,placeHolderValue;
+    private int minDialogValue,maxDialogValue;
+    private float placeHolderValue;
     private boolean dialogZero;
     private View dialogView;
     private EditText edt;
@@ -29,7 +30,7 @@ public class MyDialogDecimalFragment extends DialogFragment {
         DialogNegativeButton = "cancel";
         minDialogValue = 1;
         maxDialogValue = 10;
-        placeHolderValue = 00;
+        placeHolderValue = (float) 0.0;
         dialogZero = false;
     }
 
@@ -41,7 +42,7 @@ public class MyDialogDecimalFragment extends DialogFragment {
         DialogNegativeButton = "cancel";
         minDialogValue = 1;
         maxDialogValue = 10;
-        placeHolderValue = 00;
+        placeHolderValue = (float) 0.0;
         dialogZero = false;
     }
 
@@ -93,11 +94,11 @@ public class MyDialogDecimalFragment extends DialogFragment {
         return maxDialogValue;
     }
 
-    public void setPlaceHolderValue(int placeHolderValue) {
+    public void setPlaceHolderValue(float placeHolderValue) {
         this.placeHolderValue = placeHolderValue;
     }
 
-    public int getPlaceHolderValue() {
+    public float getPlaceHolderValue() {
         return placeHolderValue;
     }
 

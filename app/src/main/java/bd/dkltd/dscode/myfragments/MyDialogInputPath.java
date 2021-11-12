@@ -15,25 +15,33 @@ import bd.dkltd.dscode.R;
 
 public class MyDialogInputPath extends DialogFragment {
 
-	private String dialogTitle;
-	private String dialogPositiveText;
-	private String dialogNegativeText;
-	private DialogInterface.OnClickListener dialogPositiveListener;
-	private DialogInterface.OnClickListener dialogNegativeListener;
-	private View.OnClickListener dialogFilePathChooseListener;
+	private String dialogTitle, dialogPositiveText, dialogNegativeText;
 	private EditText edt,edt2;
 	private String dialogEtText1;
 	private String dialogEtText2;
 
+    public MyDialogInputPath() {
+        dialogTitle = "Select Path";
+        dialogPositiveText = "OK";
+        dialogNegativeText = "cancel";
+    }
 
+    public void setDialogTitle(String dialogTitle) {
+        this.dialogTitle = dialogTitle;
+    }
+    public void setDialogPositiveText(String dialogPositiveText) {
+        this.dialogPositiveText = dialogPositiveText;
+    }
+    public void setDialogNegativeText(String dialogNegativeText) {
+        this.dialogNegativeText = dialogNegativeText;
+    }
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View dialogView = inflater.inflate(R.layout.layout_addpath, null);
-		ImageButton btn
-			;
+		ImageButton btn;
 		edt = dialogView.findViewById(R.id.layoutaddpathEditText1);
 		edt2 = dialogView.findViewById(R.id.layoutaddpathEditText2);
 		btn = dialogView.findViewById(R.id.layout_addpathImageButton);
@@ -57,53 +65,14 @@ public class MyDialogInputPath extends DialogFragment {
 				}
 			});
 
-		//check null
-		if (dialogTitle == null) {
-			dialogTitle = "Title";
-		}
-		if (dialogPositiveText == null) {
-			dialogPositiveText = "OK";
-		}
-		if (dialogNegativeText == null) {
-			dialogNegativeText = "Cancel";
-		}
-		if (dialogPositiveListener == null) {
-			dialogPositiveListener = new DialogInterface.OnClickListener(){
-
-				@Override
-				public void onClick(DialogInterface p1, int p2) {
-					//Do nothing
-					//It is just to avoid app crash
-				}
-			};
-		}
-		if (dialogNegativeListener == null) {
-			dialogNegativeListener = new DialogInterface.OnClickListener() {
-
-				@Override
-				public void onClick(DialogInterface p1, int p2) {
-					//Do nothing
-					//It is just to avoid app crash
-				}
-			};
-		}
-		if (dialogFilePathChooseListener == null) {
-			dialogFilePathChooseListener = new View.OnClickListener(){
-
-				@Override
-				public void onClick(View p1) {
-					//Choose File
-				}
-			};
-		}
+		
 		//build alert dialog
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(dialogTitle);
 		builder.setView(dialogView);
-		builder.setPositiveButton(dialogPositiveText, dialogPositiveListener);
-		builder.setNegativeButton(dialogNegativeText, dialogNegativeListener);
+		builder.setPositiveButton(dialogPositiveText, null);
+		builder.setNegativeButton(dialogNegativeText, null);
 		edt.setText(dialogEtText1);
-		edt2.setOnClickListener(dialogFilePathChooseListener);
 		edt2.setText(dialogEtText2);
 		//edt.requestFocus(); 
 		Dialog dialog = builder.create();
