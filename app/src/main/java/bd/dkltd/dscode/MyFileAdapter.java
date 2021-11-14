@@ -8,16 +8,25 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import java.io.File;
 import android.content.Intent;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
+import android.widget.Toast;
 
 public class MyFileAdapter extends RecyclerView.Adapter<MyFileAdapter.MyFileViewHolder> {
 
     private Context context;
 	private File[] filesAndFolders;
+    private FileItemClickListener onFileItemClicklistener;
 
 	public MyFileAdapter(Context context, File[] filesAndFolders) {
 		this.context = context;
 		this.filesAndFolders = filesAndFolders;
 	}
+
+    public void setOnFileItemClicklistener(FileItemClickListener onFileItemClicklistener) {
+        this.onFileItemClicklistener = onFileItemClicklistener;
+    }
 	
 	@Override
 	public MyFileAdapter.MyFileViewHolder onCreateViewHolder(ViewGroup p1, int p2) {
@@ -39,15 +48,7 @@ public class MyFileAdapter extends RecyclerView.Adapter<MyFileAdapter.MyFileView
 
 				@Override
 				public void onClick(View p1) {
-					if (selectedFile.isDirectory()){
-						Intent i1 = new Intent(context,ListFile.class);
-						String path = selectedFile.getAbsolutePath();
-						i1.putExtra("rootPath",path);
-						i1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						context.startActivity(i1);
-					} else {
-						//open that file
-					}
+                    onFileItemClicklistener.onFileItemClick(selectedFile);
 				}
 			});
 	}
@@ -56,6 +57,9 @@ public class MyFileAdapter extends RecyclerView.Adapter<MyFileAdapter.MyFileView
 	public int getItemCount() {
 		return filesAndFolders.length;
 	}
+    public interface FileItemClickListener {
+        public void onFileItemClick(File selectedFile);
+    }
     class MyFileViewHolder extends RecyclerView.ViewHolder {
 		
 		private TextView tv1;

@@ -80,8 +80,8 @@
 # view res/layout/activity_main.xml #generated:2
 -keep class androidx.drawerlayout.widget.DrawerLayout { <init>(...); }
 
-# view res/layout/activity_files.xml #generated:47
-# view res/layout/activity_listfile.xml #generated:40
+# view res/layout/fragment_listfile.xml #generated:33
+# view res/layout/fragment_listpath.xml #generated:7
 -keep class androidx.recyclerview.widget.RecyclerView { <init>(...); }
 
 # view AndroidManifest.xml #generated:52
@@ -107,9 +107,6 @@
 
 # view AndroidManifest.xml #generated:73
 -keep class bd.dkltd.dscode.KeyBindingActivity { <init>(...); }
-
-# view AndroidManifest.xml #generated:81
--keep class bd.dkltd.dscode.ListFile { <init>(...); }
 
 # view AndroidManifest.xml #generated:26
 -keep class bd.dkltd.dscode.MainActivity { <init>(...); }

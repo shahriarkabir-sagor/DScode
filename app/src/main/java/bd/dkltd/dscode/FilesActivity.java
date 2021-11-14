@@ -19,16 +19,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import bd.dkltd.dscode.myfragments.MyDialogInputPath;
 import java.util.ArrayList;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class FilesActivity extends AppCompatActivity {
 	
 	private String iPath;
-	private MyDbHelper db_helper;
 	private SharedPreferences sPrefs;
-	private ArrayList<Paths> pathRcrd;
-	private Cursor rowlist;
-	private RecyclerView rcv;
-	private TextView tv1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,89 +42,16 @@ public class FilesActivity extends AppCompatActivity {
 		//initiate spref
 		sPrefs = getSharedPreferences("AppSettings",Context.MODE_PRIVATE);
 		iPath = sPrefs.getString("keyInternalPath",null);
-		//TextView
-		tv1 = findViewById(R.id.eventCheck1);
-		tv1.setText("Test");
-		
-		//db
-		db_helper = new MyDbHelper(this);
-		db_helper.setInternalPath(iPath);
-		rowlist = db_helper.fetchRow();
-		
-		//path record
-		pathRcrd = new ArrayList<Paths>();
-		
-		//Check Permission
-		if (checkPerms()) {
-			pathInit();
-		} else{
-			updateRcrd();
-		}
-		//img
-		int[] img = {R.drawable.ic_folder_home,R.drawable.ic_folder};
-		
-		//Adapter
-		FilePathAdapter fpa = new FilePathAdapter(this,img,pathRcrd);
-		fpa.setOnItemClickListener(new FilePathAdapter.ClickListener(){
-
-				@Override
-				public void onItemClick(int position, View v) {
-					Intent i1 = new Intent(getApplicationContext(),ListFile.class);
-					i1.putExtra("rootPath","/storage/emulated/0/");
-					startActivity(i1);
-				}
-
-				@Override
-				public void onItemLongClick(int position, View v) {
-					String pos = String.valueOf(position) + " long clicked";
-					tv1.setText(pos);
-				}
-			});
-		
-		//RecyclerView
-		rcv = findViewById(R.id.activity_RecyclerView);
-		rcv.setAdapter(fpa);
-		rcv.setLayoutManager(new LinearLayoutManager(this));
-	}
-	
-	private boolean checkPerms() {
-		int res = ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
-		if (res == PackageManager.PERMISSION_GRANTED) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	private void pathInit() {
-		if (rowlist.getCount() == 0) {
-			long rowId = db_helper.insertRow("Internal",iPath);
-			if (rowId == -1) {
-				Toast.makeText(getApplication(), "Row insertion failed", Toast.LENGTH_SHORT).show();
-			} else {
-				Toast.makeText(getApplication(), "Row successfully inserted", Toast.LENGTH_SHORT).show();
-				updateRcrd();
-			}
-		} else if(rowlist.getCount() == 1) {
-			Toast.makeText(getApplication(), "Internal storage already in db", Toast.LENGTH_SHORT).show();
-			updateRcrd();
-		} else {
-			//db has data
-			updateRcrd();
-		}
-		
-	}
-
-	private void updateRcrd() {
-		rowlist = db_helper.fetchRow();
-		if (rowlist.getCount() > 0) {
-			while(rowlist.moveToNext()) {
-				String pathName = rowlist.getString(1);
-				String pathValue = rowlist.getString(2);
-				Paths eachPath = new Paths(pathName,pathValue);
-				pathRcrd.add(eachPath);
-			}
-		}
+        
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Bundle bundle  = new Bundle();
+        bundle.putString("internalPath",iPath);
+        
+        Fragment fragment = new ListPathFragment();
+        fragment.setArguments(bundle);
+        ft.replace(R.id.frLayId, fragment);
+        ft.commit();
 	}
 
 	@Override
