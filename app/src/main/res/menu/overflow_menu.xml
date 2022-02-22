@@ -56,10 +56,12 @@
 
 			<item
 				android:id="@+id/syntaxHighLightId"
-				android:title="Syntax High Lighting"/>
+                android:icon="@drawable/ic_format_color_highlight"
+				android:title="Syntax Highlighting"/>
 
 			<item
 				android:id="@+id/textEncodeId"
+                android:icon="@drawable/ic_pen_lock"
 				android:title="Text Encoding"/>
 
 			<item

@@ -80,8 +80,10 @@
 # view res/layout/activity_main.xml #generated:2
 -keep class androidx.drawerlayout.widget.DrawerLayout { <init>(...); }
 
+# view res/layout/activity_main.xml #generated:46
 # view res/layout/fragment_listfile.xml #generated:33
 # view res/layout/fragment_listpath.xml #generated:7
+# view res/layout/fragment_nested_dir.xml #generated:12
 -keep class androidx.recyclerview.widget.RecyclerView { <init>(...); }
 
 # view AndroidManifest.xml #generated:52
@@ -135,7 +137,7 @@
 # view res/layout/design_navigation_menu.xml #generated:17
 -keep class com.google.android.material.internal.NavigationMenuView { <init>(...); }
 
-# view res/layout/activity_main.xml #generated:18
+# view res/layout/activity_main.xml #generated:17
 -keep class com.google.android.material.navigation.NavigationView { <init>(...); }
 
 # view res/layout/design_layout_snackbar.xml #generated:18

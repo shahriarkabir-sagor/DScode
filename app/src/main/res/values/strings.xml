@@ -29,5 +29,15 @@
 		<item>In App</item>
 		<item>Browser</item>
 	</string-array>
+    
+    <string-array name="path_action">
+        <item>Modify</item>
+		<item>Delete</item>
+    </string-array>
+    
+    <string-array name="file_action">
+        <item>Rename</item>
+        <item>Delete</item>
+    </string-array>
 	
 </resources>

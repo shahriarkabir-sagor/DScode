@@ -12,64 +12,90 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.Fragment;
 import android.widget.Toast;
+import bd.dkltd.dscode.MyFileAdapter.MyFileViewHolder;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import java.util.ArrayList;
 
 public class MyFileAdapter extends RecyclerView.Adapter<MyFileAdapter.MyFileViewHolder> {
 
     private Context context;
-	private File[] filesAndFolders;
-    private FileItemClickListener onFileItemClicklistener;
+	private ArrayList<File> allFiles;
+    private ClickListener clickListener;
 
-	public MyFileAdapter(Context context, File[] filesAndFolders) {
-		this.context = context;
-		this.filesAndFolders = filesAndFolders;
-	}
+    public MyFileAdapter(Context context, ArrayList<File> allFiles) {
+        this.context = context;
+        this.allFiles = allFiles;
+    }
 
-    public void setOnFileItemClicklistener(FileItemClickListener onFileItemClicklistener) {
-        this.onFileItemClicklistener = onFileItemClicklistener;
+    public void setOnFileClickListener(ClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 	
 	@Override
-	public MyFileAdapter.MyFileViewHolder onCreateViewHolder(ViewGroup p1, int p2) {
-		LayoutInflater inflater = LayoutInflater.from(context);
-		View v = inflater.inflate(R.layout.layout_path_rcv,p1,false);
+	public MyFileAdapter.MyFileViewHolder onCreateViewHolder(ViewGroup parent, int p2) {		
+		View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_path_rcv,parent,false);
 		return new MyFileViewHolder(v);
 	}
 
 	@Override
-	public void onBindViewHolder(MyFileAdapter.MyFileViewHolder p1, int position) {
-		final File selectedFile = filesAndFolders[position];
-		p1.tv1.setText(selectedFile.getName());
-		if (selectedFile.isDirectory()){
-			p1.img1.setImageResource(R.drawable.ic_folder);
-		} else {
-			p1.img1.setImageResource(R.drawable.ic_file_document);
-		}
-		p1.itemView.setOnClickListener(new View.OnClickListener(){
-
-				@Override
-				public void onClick(View p1) {
-                    onFileItemClicklistener.onFileItemClick(selectedFile);
-				}
-			});
+	public void onBindViewHolder(MyFileAdapter.MyFileViewHolder viewHolder, int position) {
+        String localPath = allFiles.get(position).getAbsolutePath();
+		File selectedFile = new File(localPath);
+        String nameOfFile = selectedFile.getName();
+        viewHolder.getTv1().setText(nameOfFile);
+        fileIconManager(viewHolder,selectedFile);
 	}
+
+    private void fileIconManager(MyFileAdapter.MyFileViewHolder viewHolder, File selectedFile) {
+        if(selectedFile.isDirectory()) {
+            viewHolder.getImg1().setImageResource(R.drawable.ic_folder);
+        } else {
+            viewHolder.getImg1().setImageResource(R.drawable.ic_file_document);
+        }
+    }
+    
 
 	@Override
 	public int getItemCount() {
-		return filesAndFolders.length;
+		return allFiles.size();
 	}
-    public interface FileItemClickListener {
-        public void onFileItemClick(File selectedFile);
-    }
-    class MyFileViewHolder extends RecyclerView.ViewHolder {
+    
+    public class MyFileViewHolder extends RecyclerView.ViewHolder implements OnClickListener,OnLongClickListener {
+
+        @Override
+        public void onClick(View v1) {
+            clickListener.onItemClick(getAdapterPosition(),v1);
+        }
+
+        @Override
+        public boolean onLongClick(View v1) {
+            clickListener.onItemLongClick(getAdapterPosition(),v1);
+            return true;
+        }
+
 		
-		private TextView tv1;
-		private ImageView img1;
+		private final TextView tv1;
+		private final ImageView img1;
 		
-		public MyFileViewHolder(View view) {
-			super(view);
-			tv1 = view.findViewById(R.id.pathRcvTv1);
-			img1 = view.findViewById(R.id.pathRcvImgv1);
+		public MyFileViewHolder(View eachView) {
+			super(eachView);
+			tv1 = eachView.findViewById(R.id.pathRcvTv1);
+			img1 = eachView.findViewById(R.id.pathRcvImgv1);
+            eachView.setOnClickListener(this);
+            eachView.setOnLongClickListener(this);
 		}
-		
+
+        public TextView getTv1() {
+            return tv1;
+        }
+
+        public ImageView getImg1() {
+            return img1;
+        }
 	}
+    public interface ClickListener {
+        void onItemClick(int position, View v);
+        void onItemLongClick(int position, View v);
+    }
 }

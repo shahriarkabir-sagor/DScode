@@ -22,11 +22,13 @@ import java.util.ArrayList;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.widget.LinearLayout;
+import android.view.ViewGroup;
 
 public class FilesActivity extends AppCompatActivity {
-	
-	private String iPath;
-	private SharedPreferences sPrefs;
+    
+    private LinearLayout ll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,20 +41,38 @@ public class FilesActivity extends AppCompatActivity {
     }
 
 	private void init() {
-		//initiate spref
-		sPrefs = getSharedPreferences("AppSettings",Context.MODE_PRIVATE);
-		iPath = sPrefs.getString("keyInternalPath",null);
+        //Create path navigation
+        ll = findViewById(R.id.pathNavigationHolderLL);
+        pathNavigator();
         
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Bundle bundle  = new Bundle();
-        bundle.putString("internalPath",iPath);
-        
-        Fragment fragment = new ListPathFragment();
-        fragment.setArguments(bundle);
-        ft.replace(R.id.frLayId, fragment);
+        ListPathFragment fragment = new ListPathFragment();
+        ft.add(R.id.frLayId, fragment.newInstance(),"List storage");
         ft.commit();
 	}
+
+    private void pathNavigator() {
+        TextView slashView = new TextView(this);
+        slashView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+        slashView.setBackgroundResource(R.color.grey);
+        slashView.setPadding(4,0,4,0);
+        slashView.setText("/");
+        if (ll != null) {
+            ll.addView(slashView);
+        }
+        TextView pathView = new TextView(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMarginStart(4);
+        params.setMarginEnd(4);
+        pathView.setLayoutParams(params);
+        pathView.setBackgroundResource(R.color.lightPink);
+        pathView.setPadding(4,0,4,0);
+        pathView.setText("paths");
+        if (ll != null) {
+            ll.addView(pathView);
+        }
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -69,9 +89,22 @@ public class FilesActivity extends AppCompatActivity {
 				this.finish();
 				return true;
 			case R.id.fItem3:
-				MyDialogInputPath iPathChooser = new MyDialogInputPath();
+				final MyDialogInputPath iPathChooser = new MyDialogInputPath();
                 iPathChooser.setDialogTitle("Choose path");
                 iPathChooser.setCancelable(false);
+                iPathChooser.setOnPositiveListener(new MyDialogInputPath.OnPositiveListener() {
+
+                        @Override
+                        public void onClick(String pathName, String pathValue) {
+                            MyDbHelper storage_db = new MyDbHelper(getApplicationContext());
+                            long rowId = storage_db.insertRow("Storage_Path",pathName,pathValue);
+                            if (rowId == -1) {
+                                Toast.makeText(getApplicationContext(), "Row insertion failed", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Row successfully inserted", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
 				iPathChooser.show(getFragmentManager(),"Choose path");
 				return true;
 			default:

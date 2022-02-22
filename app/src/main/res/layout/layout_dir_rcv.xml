@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:padding="8dp"
+	android:background="@color/grey">
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center_vertical">
+
+		<ImageView
+			android:src="@drawable/ic_menu_right"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/dirRcvArrowRightIcon"/>
+
+		<ImageView
+			android:src="@drawable/ic_folder"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/dirRcvFolderIcon"
+			android:layout_margin="2dp"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Text"
+			android:layout_weight="1.0"
+			android:textStyle="bold"
+			android:id="@+id/dirRcvFolderName"
+			android:layout_marginLeft="2dp"
+			android:layout_marginRight="2dp"/>
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+
+			<ImageView
+				android:src="@drawable/ic_information"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/dirRcvInfoIcon"
+				android:padding="2dp"/>
+
+			<ImageView
+				android:src="@drawable/ic_dots_vertical"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/dirRcvAddIcon"
+				android:padding="2dp"
+				android:tint="@color/black"/>
+
+			<ImageView
+				android:src="@drawable/ic_close"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/dirRcvCrossIcon"
+				android:padding="2dp"/>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/dirRcvRelativeLayout1"
+		android:visibility="gone">
+
+		<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/dirRcvFrameLayout1">
+
+		</FrameLayout>
+
+	</RelativeLayout>
+
+</LinearLayout>
+
