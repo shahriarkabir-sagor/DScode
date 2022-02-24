@@ -29,15 +29,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.webkit.WebViewAssetLoader;
 import androidx.webkit.WebViewClientCompat;
 import bd.dkltd.dscode.myfragments.MyDialogFragment;
 import java.util.ArrayList;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import android.widget.FrameLayout;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.fragment.app.FragmentManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -156,13 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onFolderClick(int position, View v, ExpandList obj) {
-                    String fPath = listOfDir.get(position).getPathSource();
-                    FrameLayout fl = obj.getFrameLayout();
-                    NestedDirFragment ndf = new NestedDirFragment();
-                    FragmentManager fm = getSupportFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.add(fl.getId(),ndf.newInstance(fPath),"add fragment to frameLayout");
-                    ft.commit();
+                    // don't need to set recyclerView just control expand collapse
                     if(obj.isExpanded()) {
                         obj.getRelativeLayout().setVisibility(View.GONE);
                         oda.setExpanded(false, position);

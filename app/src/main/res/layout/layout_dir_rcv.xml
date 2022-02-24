@@ -73,12 +73,18 @@
 		android:id="@+id/dirRcvRelativeLayout1"
 		android:visibility="gone">
 
-		<FrameLayout
-			android:layout_width="match_parent"
+		<androidx.recyclerview.widget.RecyclerView
 			android:layout_height="wrap_content"
-			android:id="@+id/dirRcvFrameLayout1">
+			android:layout_width="match_parent"
+			android:id="@+id/dirRcvRecyclerView1"/>
 
-		</FrameLayout>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="No Files Here"
+			android:layout_below="@id/dirRcvRecyclerView1"
+			android:layout_centerHorizontal="true"
+			android:id="@+id/dirRcvTextView1"/>
 
 	</RelativeLayout>
 

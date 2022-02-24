@@ -16,7 +16,7 @@
 			android:src="@drawable/ic_menu_right"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-            android:id="@+id/nestedSVDropdownIcon"/>
+			android:id="@+id/nestedSVDropdownIcon"/>
 
 		<ImageView
 			android:src="@drawable/ic_folder"
@@ -39,6 +39,7 @@
 			android:id="@+id/nestedSVInfoIcon"/>
 
 		<ImageView
+			android:tint="@color/black"
 			android:src="@drawable/ic_dots_vertical"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -50,12 +51,22 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:paddingLeft="16dp"
-		android:id="@+id/nestedSVRelativeLayout1">
+		android:id="@+id/nestedSVRelativeLayout1"
+		android:visibility="gone">
 
-		<FrameLayout
+		<androidx.recyclerview.widget.RecyclerView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:id="@+id/nestedSVFrameLayout1"/>
+			android:id="@+id/nestedDirRcvRecyclerView1"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="No Files Here"
+			android:layout_below="@id/nestedDirRcvRecyclerView1"
+			android:layout_centerHorizontal="true"
+			android:id="@+id/nestedDirRcvTextView1"
+			android:visibility="gone"/>
 
 	</RelativeLayout>
 
