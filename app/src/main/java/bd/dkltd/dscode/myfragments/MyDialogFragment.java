@@ -73,27 +73,7 @@ public class MyDialogFragment extends DialogFragment {
 		
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View dialogView = inflater.inflate(R.layout.layout_one_et_dialog,null);
-		EditText edt = dialogView.findViewById(R.id.createFileNameId); 
-		if (dialogPositiveListener == null) {
-			dialogPositiveListener = new DialogInterface.OnClickListener(){
-
-				@Override
-				public void onClick(DialogInterface p1, int p2) {
-					//Do nothing
-					//It is just for avoid app crash
-				}
-			};
-		}
-		if (dialogNegativeListener == null) {
-			dialogNegativeListener = new DialogInterface.OnClickListener() {
-
-				@Override
-				public void onClick(DialogInterface p1, int p2) {
-					//Do nothing
-					//It is just for avoid app crash
-				}
-			};
-		}
+		EditText edt = dialogView.findViewById(R.id.createFileNameId);
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(dialogTitle);
 		builder.setView(dialogView);

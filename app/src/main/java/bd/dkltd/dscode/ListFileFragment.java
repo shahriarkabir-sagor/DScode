@@ -1,7 +1,11 @@
 package bd.dkltd.dscode;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -12,10 +16,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import java.io.File;
+import bd.dkltd.dscode.myfragments.EditNameDFragment;
 import bd.dkltd.dscode.myfragments.MyDialogListViewFragment;
-import android.content.DialogInterface;
+import java.io.File;
 import java.util.ArrayList;
+import android.content.Context;
 
 public class ListFileFragment extends Fragment {
 
@@ -26,6 +31,12 @@ public class ListFileFragment extends Fragment {
     private LinearLayout ll;
     private RecyclerView rcView;
     private MyFileAdapter fAdapter;
+    private FragmentManager fm;
+    private OnPathReceivedCallback onPathReceivedCallback;
+
+    public void setOnPathReceived(OnPathReceivedCallback onPathReceived) {
+        this.onPathReceivedCallback = onPathReceived;
+    }
 
     public static ListFileFragment newInstance(String absolutePath) {
         ListFileFragment lff = new ListFileFragment();
@@ -38,9 +49,11 @@ public class ListFileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         //Retrieve path from bundle
         pathFromArgs = getArguments().getString("dirPath", null);
+        onPathReceivedCallback.onPathReceived(pathFromArgs);
     } 
 
     @Override
@@ -55,6 +68,7 @@ public class ListFileFragment extends Fragment {
         ll = fView.findViewById(R.id.emptyLl);
         rcView = fView.findViewById(R.id.rcvListFile1);
         selectDirBtn = fView.findViewById(R.id.selDirBtn);
+        fm = getActivity().getSupportFragmentManager();
         // File operation
         parentDir = new File(pathFromArgs);
         File[] allFilesAndDirs = parentDir.listFiles();
@@ -73,7 +87,7 @@ public class ListFileFragment extends Fragment {
                     @Override
                     public void onClick(View p1) {
                         MyDbHelper db_helper = new MyDbHelper(getActivity());
-                        long rowId = db_helper.insertRow("Opened_directory",dirName,path);
+                        long rowId = db_helper.insertRow("Opened_directory", dirName, path);
                         if (rowId == -1) {
                             Toast.makeText(getActivity(), "Failed to open directory " + dirName, Toast.LENGTH_SHORT).show();
                         } else {
@@ -93,6 +107,7 @@ public class ListFileFragment extends Fragment {
             FileSorter fs = new FileSorter();
             fs.setListOfFiles(allFilesAndDir);
             fs.filterHiddenDirs();
+            fs.sortFilesByNameAscIgnoreCase();
             fs.sortFilesByDirectory();
             ArrayList<File> newFileList = fs.getSortedFileArray();
             // check sorted fileArry is empty or not
@@ -103,7 +118,7 @@ public class ListFileFragment extends Fragment {
             } else {
                 noFileMethod(true);
             }
-            
+
         } else {
             noFileMethod(true);
         }
@@ -119,7 +134,7 @@ public class ListFileFragment extends Fragment {
         }
     }
 
-    
+
 
     private void recycleHandler(final ArrayList<File> newFileList) {
         rcView.setHasFixedSize(true);
@@ -170,7 +185,7 @@ public class ListFileFragment extends Fragment {
                                 switch (indexPosition) {
                                     case 0:
                                         //Rename the file
-                                        
+
                                         break;
                                     case 1:
                                         //store the parent directory before deleting it
@@ -208,6 +223,51 @@ public class ListFileFragment extends Fragment {
         } else {
             return false;
         }
+    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //clear the menu that comes from FilesActivity
+        menu.clear();
+        // inflate a new menu
+        inflater.inflate(R.menu.fmanager_menu,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+    
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.fNewFile:
+                EditNameDFragment endf1 = EditNameDFragment.newInstance("Enter File Name: ","Create","Cancel",null);
+                endf1.checkExistance(parentDir.getAbsolutePath());
+                endf1.setForFileCreation();
+                endf1.show(fm,"Create file");
+                return true;
+            case R.id.fNewFolder:
+                EditNameDFragment endf2 = EditNameDFragment.newInstance("Enter Folder Name: ","Create","Cancel",null);
+                endf2.checkExistance(parentDir.getAbsolutePath());
+                endf2.setForFolderCreation();
+                endf2.show(fm,"Create folder");
+                return true;
+            case R.id.fNewProj:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+        onPathReceivedCallback = (ListFileFragment.OnPathReceivedCallback) context;
+        } catch(ClassCastException e) {
+            Toast.makeText(getActivity(),"Error: " + e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    }
+    
+    public interface OnPathReceivedCallback {
+        void onPathReceived(String currentPath);
     }
 }

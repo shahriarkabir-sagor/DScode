@@ -102,6 +102,9 @@
 # view AndroidManifest.xml #generated:48
 -keep class bd.dkltd.dscode.EditorSettings { <init>(...); }
 
+# view AndroidManifest.xml #generated:81
+-keep class bd.dkltd.dscode.FileSettingsActivity { <init>(...); }
+
 # view AndroidManifest.xml #generated:77
 -keep class bd.dkltd.dscode.FilesActivity { <init>(...); }
 

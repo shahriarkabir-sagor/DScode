@@ -7,7 +7,6 @@ public class ExpandList {
     
     private ImageView dropdownIcon;
     private RelativeLayout relativeLayout;
-    private FrameLayout frameLayout;
     private boolean expanded;
 
     public ExpandList() {
@@ -17,13 +16,6 @@ public class ExpandList {
     public ExpandList(ImageView dropdownIcon, RelativeLayout relativeLayout, boolean expanded) {
         this.dropdownIcon = dropdownIcon;
         this.relativeLayout = relativeLayout;
-        this.expanded = expanded;
-    }
-
-    public ExpandList(ImageView dropdownIcon, RelativeLayout relativeLayout, FrameLayout frameLayout, boolean expanded) {
-        this.dropdownIcon = dropdownIcon;
-        this.relativeLayout = relativeLayout;
-        this.frameLayout = frameLayout;
         this.expanded = expanded;
     }
 
@@ -41,14 +33,6 @@ public class ExpandList {
 
     public RelativeLayout getRelativeLayout() {
         return relativeLayout;
-    }
-
-    public void setFrameLayout(FrameLayout frameLayout) {
-        this.frameLayout = frameLayout;
-    }
-
-    public FrameLayout getFrameLayout() {
-        return frameLayout;
     }
 
     public void setExpanded(boolean expanded) {

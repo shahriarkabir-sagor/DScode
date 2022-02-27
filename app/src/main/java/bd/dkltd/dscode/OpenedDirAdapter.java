@@ -19,16 +19,17 @@ public class OpenedDirAdapter extends RecyclerView.Adapter<OpenedDirAdapter.ODAH
 
     private Context cntx;
     private ArrayList<SrcPaths> srcPathsAndName;
-    private static FolderClickListener folderClickListener;
     private static OptionClickListener optionClickListener;
     private Boolean[] expanded;
+
+    private ArrayList<File> sortedFileArray;
 
     public OpenedDirAdapter(Context cntx, ArrayList<SrcPaths> srcPathsAndName) {
         this.cntx = cntx;
         this.srcPathsAndName = srcPathsAndName;
         int boolArraySize = srcPathsAndName.size();
         expanded = new Boolean[boolArraySize];
-        Arrays.fill(expanded,Boolean.FALSE);
+        Arrays.fill(expanded, Boolean.FALSE);
     }
 
     public void setExpanded(boolean expanded, int position) {
@@ -39,10 +40,6 @@ public class OpenedDirAdapter extends RecyclerView.Adapter<OpenedDirAdapter.ODAH
         return expanded[position];
     }
 
-    public static void setOnFolderClickListener(FolderClickListener folderClickListener) {
-        OpenedDirAdapter.folderClickListener = folderClickListener;
-    }
-
     public static void setOnOptionClickListener(OptionClickListener optionClickListener) {
         OpenedDirAdapter.optionClickListener = optionClickListener;
     }
@@ -50,24 +47,76 @@ public class OpenedDirAdapter extends RecyclerView.Adapter<OpenedDirAdapter.ODAH
     @Override
     public OpenedDirAdapter.ODAHolder onCreateViewHolder(ViewGroup parent, int p2) {
         View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_dir_rcv, parent, false);
+        sortedFileArray = new ArrayList<File>();
         return new ODAHolder(newView);
     }
 
     @Override
-    public void onBindViewHolder(OpenedDirAdapter.ODAHolder viewHolder, int position) {
+    public void onBindViewHolder(OpenedDirAdapter.ODAHolder viewHolder, final int position) {
         String valueOfPath = srcPathsAndName.get(position).getPathSource();
         File selectedFile = new File(valueOfPath);
         String nameOfFile = selectedFile.getName();
         viewHolder.getFolderName().setText(nameOfFile);
-        fileIconManager(viewHolder, selectedFile);
+        //setup recyclerview
+        File[] allFile = selectedFile.listFiles();
+        FileSorter fs = new FileSorter(allFile);
+        fs.sortFilesByDirectory();
+        sortedFileArray = fs.getSortedFileArray();
+        if (hasFile(sortedFileArray)) {
+            setNoFileVisibility(viewHolder, false);
+            dislayToRecyclerView(viewHolder);
+        } else {
+            setNoFileVisibility(viewHolder, true);
+        }
+        //Handle expand collapse
+        final RelativeLayout rl = viewHolder.getRl();
+        final ImageView arrowIcon = viewHolder.getArrowIcon();
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View p1) {
+                    boolean isExpanded = getExpanded(position);
+                    if (isExpanded) {
+                        rl.setVisibility(View.GONE);
+                        arrowIcon.setImageResource(R.drawable.ic_menu_right);
+                        setExpanded(false, position);
+                    } else {
+                        rl.setVisibility(View.VISIBLE);
+                        arrowIcon.setImageResource(R.drawable.ic_menu_down);
+                        setExpanded(true, position);
+                    }
+                }
+            });
+
     }
 
-    private void fileIconManager(OpenedDirAdapter.ODAHolder viewHolder, File selectedFile) {
-        if (selectedFile.isDirectory()) {
-            viewHolder.getFolderIcon().setImageResource(R.drawable.ic_folder);
+    private boolean hasFile(ArrayList<File> array) {
+        if (array.size() > 0) {
+            return true;
         } else {
-            viewHolder.getFolderIcon().setImageResource(R.drawable.ic_file_document);
+            return false;    
         }
+    }
+
+    private void setNoFileVisibility(OpenedDirAdapter.ODAHolder viewHolder, boolean p1) {
+        RecyclerView nrcv = viewHolder.getNestedRcv();
+        TextView noFile = viewHolder.getNoFileTV();
+        if (p1) {
+            nrcv.setVisibility(View.GONE);
+            noFile.setVisibility(View.VISIBLE);
+        } else {
+            noFile.setVisibility(View.GONE);
+            nrcv.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void dislayToRecyclerView(OpenedDirAdapter.ODAHolder viewHolder) {
+        //Setup RecyclerView
+        RecyclerView nrcv = viewHolder.getNestedRcv();
+        nrcv.setHasFixedSize(true);
+        nrcv.setLayoutManager(new LinearLayoutManager(cntx));
+        NestedDirAdapter nda = new NestedDirAdapter(cntx, sortedFileArray);
+        nrcv.setAdapter(nda);
     }
 
     @Override
@@ -79,100 +128,13 @@ public class OpenedDirAdapter extends RecyclerView.Adapter<OpenedDirAdapter.ODAH
     public class ODAHolder extends RecyclerView.ViewHolder {
         private ImageView addIcon,infoIcon,crossIcon;
         private final ImageView folderIcon,arrowIcon;
-        private final TextView folderName;
+        private final TextView folderName,noFileTV;
         private final RelativeLayout rl;
-        private ArrayList<File> sortedFileArray;
-        private RecyclerView nestedRcv;
-        private TextView noFileTV;
+        private final RecyclerView nestedRcv;
         private NestedDirAdapter nda;
         public ODAHolder(View view) {
             super(view);  
             //listeners
-            View.OnClickListener clickListenerForView = new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v1) {
-                    //fetch all files here
-                    String parentDirPath = srcPathsAndName.get(getAdapterPosition()).getPathSource();
-                    File parentDir = new File(parentDirPath);
-                    File[] allFile = parentDir.listFiles();
-                    FileSorter fs = new FileSorter(allFile);
-                    fs.sortFilesByDirectory();
-                    sortedFileArray = fs.getSortedFileArray();
-                    if (hasFile(sortedFileArray)) {
-                        setNoFileVisibility(false);
-                        displayToRecyclerView();
-                    } else {
-                        setNoFileVisibility(true);
-                    }
-                    try {
-                        ExpandList obj = new ExpandList(arrowIcon,rl,expanded[getAdapterPosition()]);
-                        folderClickListener.onFolderClick(getAdapterPosition(),v1,obj);
-                    } catch(NullPointerException e) {
-                        Toast.makeText(cntx,"error " + e.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                private void setNoFileVisibility(boolean p0) {
-                    if (p0) {
-                        nestedRcv.setVisibility(View.GONE);
-                        noFileTV.setVisibility(View.VISIBLE);
-                    } else {
-                        noFileTV.setVisibility(View.GONE);
-                        nestedRcv.setVisibility(View.VISIBLE);
-                    }
-                }
-
-                private void displayToRecyclerView() {
-                    //manage recyclerview
-                    nestedRcv.setHasFixedSize(true);
-                    nestedRcv.setLayoutManager(new LinearLayoutManager(cntx));
-                    nda = new NestedDirAdapter(cntx,sortedFileArray);
-                    nestedRcv.setAdapter(nda);
-                    //add listener
-                    nda.setOnFolderClickListener(new NestedDirAdapter.FolderClickListener() {
-
-                            @Override
-                            public void onFolderClick(int position, View v, ExpandList obj) {
-                                // don't need to set recyclerView just control expand collapse
-                                if(obj.isExpanded()) {
-                                    obj.getRelativeLayout().setVisibility(View.GONE);
-                                    nda.setExpanded(false, position);
-                                    obj.getDropdownIcon().setImageResource(R.drawable.ic_menu_right);
-                                } else {
-                                    obj.getRelativeLayout().setVisibility(View.VISIBLE);
-                                    nda.setExpanded(true, position);
-                                    obj.getDropdownIcon().setImageResource(R.drawable.ic_menu_down);
-                                }
-                            }
-
-                            @Override
-                            public boolean onFolderLongClick(int position, View v) {
-                                return false;
-                            }
-                        });
-                }
-
-                private boolean hasFile(ArrayList<File> array) {
-                    if (array.size() > 0) {
-                        return true;
-                    } else {
-                        return false;    
-                    }
-                }
-            };
-            View.OnLongClickListener longClickListenerForView = new View.OnLongClickListener() {
-
-                @Override
-                public boolean onLongClick(View v1) {
-                    try {
-                        folderClickListener.onFolderLongClick(getAdapterPosition(),v1);
-                    } catch(NullPointerException e) {
-                        
-                    }
-                    return true;
-                }
-            };
             View.OnClickListener clickListenerForOptions = new View.OnClickListener() {
 
                 @Override
@@ -181,21 +143,21 @@ public class OpenedDirAdapter extends RecyclerView.Adapter<OpenedDirAdapter.ODAH
                         case R.id.dirRcvAddIcon:
                             try {
                                 optionClickListener.onAddIconClick(getAdapterPosition(), v2);
-                            } catch(NullPointerException e) {
+                            } catch (NullPointerException e) {
 
                             }
                             break;
                         case R.id.dirRcvInfoIcon:
                             try {
                                 optionClickListener.onInfoIconClick(getAdapterPosition(), v2);
-                            } catch(NullPointerException e) {
+                            } catch (NullPointerException e) {
 
                             }
                             break;
                         case R.id.dirRcvCrossIcon:
                             try {
                                 optionClickListener.onCrossIconClick(getAdapterPosition(), v2);
-                            } catch(NullPointerException e) {
+                            } catch (NullPointerException e) {
 
                             }
                             break;
@@ -216,11 +178,17 @@ public class OpenedDirAdapter extends RecyclerView.Adapter<OpenedDirAdapter.ODAH
             folderName = view.findViewById(R.id.dirRcvFolderName);  
 
             //set listener
-            view.setOnClickListener(clickListenerForView);
-            view.setOnLongClickListener(longClickListenerForView);
             addIcon.setOnClickListener(clickListenerForOptions);
             infoIcon.setOnClickListener(clickListenerForOptions);
             crossIcon.setOnClickListener(clickListenerForOptions);
+        }
+
+        public RecyclerView getNestedRcv() {
+            return nestedRcv;
+        }
+
+        public TextView getNoFileTV() {
+            return noFileTV;
         }
 
         public ImageView getArrowIcon() {
@@ -239,12 +207,7 @@ public class OpenedDirAdapter extends RecyclerView.Adapter<OpenedDirAdapter.ODAH
             return folderName;
         }
     }
-    
-    public interface FolderClickListener {
-        void onFolderClick(int position, View v, ExpandList obj);
-        boolean onFolderLongClick(int position, View v);
-    }
-    
+
     public interface OptionClickListener {
         void onAddIconClick(int position, View v);
         void onInfoIconClick(int position, View v);

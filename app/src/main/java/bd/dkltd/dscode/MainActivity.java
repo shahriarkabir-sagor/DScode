@@ -149,29 +149,6 @@ public class MainActivity extends AppCompatActivity {
         rcv2.setLayoutManager(new LinearLayoutManager(this));
         oda = new OpenedDirAdapter(this,listOfDir); //pass activity(not context) and array of files
         rcv2.setAdapter(oda);
-        oda.setOnFolderClickListener(new OpenedDirAdapter.FolderClickListener() {
-
-                @Override
-                public void onFolderClick(int position, View v, ExpandList obj) {
-                    // don't need to set recyclerView just control expand collapse
-                    if(obj.isExpanded()) {
-                        obj.getRelativeLayout().setVisibility(View.GONE);
-                        oda.setExpanded(false, position);
-                        obj.getDropdownIcon().setImageResource(R.drawable.ic_menu_right);
-                    } else {
-                        obj.getRelativeLayout().setVisibility(View.VISIBLE);
-                        oda.setExpanded(true, position);
-                        obj.getDropdownIcon().setImageResource(R.drawable.ic_menu_down);
-                    }
-                }
-                
-
-                @Override
-                public boolean onFolderLongClick(int position, View v) {
-                    Toast.makeText(getApplicationContext(),"Long clicked on " + position,Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            });
         oda.setOnOptionClickListener(new OpenedDirAdapter.OptionClickListener() {
 
                 @Override
@@ -330,16 +307,13 @@ public class MainActivity extends AppCompatActivity {
 				Toast.makeText(getApplicationContext(), "19", Toast.LENGTH_SHORT).show();
 				return true;
 			case R.id.gitId:
-				Intent i20 = new Intent(MainActivity.this, RemoteRepoActivity.class);
-				startActivity(i20);
+				startActivity(new Intent(this, RemoteRepoActivity.class));
 				return true;
 			case R.id.settingsId:
-				Intent i21 = new Intent(MainActivity.this, SettingsActivity.class);
-				startActivity(i21);
+				startActivity(new Intent(this, SettingsActivity.class));
 				return true;
 			case R.id.helpId:
-				Intent i22 = new Intent(MainActivity.this, HelpActivity.class);
-				startActivity(i22);
+				startActivity(new Intent(this, HelpActivity.class));
 				return true;
 			case R.id.exitId:
 				Toast.makeText(getApplicationContext(), "App Closed", Toast.LENGTH_SHORT).show();

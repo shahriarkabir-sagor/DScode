@@ -78,6 +78,10 @@
             android:name="bd.dkltd.dscode.FilesActivity"
             android:label="File Browser"
             android:screenOrientation="unspecified" />
+        <activity
+            android:name="bd.dkltd.dscode.FileSettingsActivity"
+            android:label="File Settings"
+            android:screenOrientation="unspecified" />
     </application>
 
 </manifest>

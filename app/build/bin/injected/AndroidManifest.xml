@@ -100,6 +100,11 @@
 			android:screenOrientation="unspecified"
 			android:label="File Browser"/>
 
+		<activity
+			android:name=".FileSettingsActivity"
+			android:screenOrientation="unspecified"
+			android:label="File Settings"/>
+
 	</application>
 
 </manifest>

@@ -81,10 +81,16 @@
             android:name=".KeyBindingActivity"
             android:screenOrientation="unspecified"
             android:label="KeyBinding" />
+        
         <activity
             android:name=".FilesActivity"
             android:screenOrientation="unspecified"
             android:label="File Browser" />
+        
+        <activity
+            android:name=".FileSettingsActivity"
+            android:screenOrientation="unspecified"
+            android:label="File Settings" />
         
     </application>
 

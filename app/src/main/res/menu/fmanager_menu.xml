@@ -1,42 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto">
-    
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/fItem1"
+        android:id="@+id/fMagnifyIcon"
         android:title="Search"
-		android:icon="@drawable/ic_magnify"
-		app:iconTint="@color/white"
-		app:showAsAction="ifRoom"/>
-	
-	<item
-        android:id="@+id/fItem2"
-        android:title="Add path"
-		android:icon="@drawable/ic_plus"
-		app:showAsAction="ifRoom">
-		
-		<menu>
-			<item
-				android:id="@+id/fItem3"
-				android:title="Add local path"/>
+        android:icon="@drawable/ic_magnify"
+        app:iconTint="@color/white"
+        app:showAsAction="ifRoom"/>
 
-			<item
-				android:id="@+id/fItem4"
-				android:title="Add ftp"/>
+    <item
+        android:id="@+id/fPlusIcon"
+        android:title="Add path wrapper menu"
+        android:icon="@drawable/ic_plus"
+        app:showAsAction="ifRoom">
 
-			<item
-				android:id="@+id/fItem5"
-				android:title="Add sftp"/>
-			
-		</menu>
-		
-	</item>
-	
-	<item
-        android:id="@+id/fItem6"
+        <menu>
+            <item
+                android:id="@+id/fNewFile"
+                android:title="Create File"/>
+
+            <item
+                android:id="@+id/fNewFolder"
+                android:title="Create Folder"/>
+
+            <item
+                android:id="@+id/fNewProj"
+                android:title="Create Project"/>
+        </menu>
+
+    </item>
+
+    <item
+        android:id="@+id/fReload"
         android:title="Reload"/>
-	
-	<item
+
+    <item
         android:id="@+id/fItem7"
         android:title="Settings"/>
 

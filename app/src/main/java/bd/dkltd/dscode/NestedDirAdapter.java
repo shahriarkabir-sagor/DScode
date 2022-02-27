@@ -13,13 +13,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import bd.dkltd.dscode.NestedDirAdapter.NestedViewHolder;
 
 public class NestedDirAdapter extends RecyclerView.Adapter<NestedDirAdapter.NestedViewHolder> {
 
     private Context cntx;
     private ArrayList<File> fileArray;
     private Boolean[] expanded;
-    private NestedDirAdapter.FolderClickListener folderClickListener;
+    private ArrayList<File> sortedFileArray;
+
+    private NestedDirAdapter nda;
 
     public NestedDirAdapter(Context cntx, ArrayList<File> fileArray) {
         this.cntx = cntx;
@@ -37,25 +40,81 @@ public class NestedDirAdapter extends RecyclerView.Adapter<NestedDirAdapter.Nest
         return expanded[position];
     }
 
-    public void setOnFolderClickListener(NestedDirAdapter.FolderClickListener folderClickListener) {
-        this.folderClickListener = folderClickListener;
-    }
-
     @Override
     public NestedDirAdapter.NestedViewHolder onCreateViewHolder(ViewGroup parent, int p2) {
         View inflatedView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_nested_dir_rcv, parent, false);
+        sortedFileArray = new ArrayList<File>();
         return new NestedViewHolder(inflatedView);
     }
 
     @Override
-    public void onBindViewHolder(NestedDirAdapter.NestedViewHolder viewHoler, int position) {
+    public void onBindViewHolder(NestedDirAdapter.NestedViewHolder viewHolder, final int position) {
         String name = fileArray.get(position).getName();
-        viewHoler.getFolderName().setText(name);
+        viewHolder.getFolderName().setText(name);
         File selectedFile = new File(fileArray.get(position).getAbsolutePath());
-        if (!selectedFile.isDirectory()) {
-            viewHoler.getFolderIcon().setImageResource(R.drawable.ic_file_document);
-            viewHoler.getArrowIcon().setVisibility(View.INVISIBLE);
+        boolean isDirectory = selectedFile.isDirectory();
+        if (isDirectory) {
+            File[] allFile = selectedFile.listFiles();
+            FileSorter fs = new FileSorter(allFile);
+            fs.sortFilesByDirectory();
+            sortedFileArray = fs.getSortedFileArray();
+            if (hasFile(sortedFileArray)) {
+                setNoFileVisibility(viewHolder, false);
+                diplayToRecyclerView(viewHolder);
+            } else {
+                setNoFileVisibility(viewHolder, true);
+            }
+            //Handle expand and collapse
+            final RelativeLayout rl = viewHolder.getRelativeLayout();
+            final ImageView arrowIcon = viewHolder.getArrowIcon();
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View p1) {
+                        boolean isExpanded = getExpanded(position);
+                        if (isExpanded) {
+                            rl.setVisibility(View.GONE);
+                            arrowIcon.setImageResource(R.drawable.ic_menu_right);
+                            setExpanded(false, position);
+                        } else {
+                            rl.setVisibility(View.VISIBLE);
+                            arrowIcon.setImageResource(R.drawable.ic_menu_down);
+                            setExpanded(true, position);
+                        }
+                    }
+                });
+        }else if (!isDirectory) {
+            viewHolder.getFolderIcon().setImageResource(R.drawable.ic_file_document);
+            viewHolder.getArrowIcon().setVisibility(View.INVISIBLE);
         }
+    }
+
+    private boolean hasFile(ArrayList<File> array) {
+        if (array.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void setNoFileVisibility(NestedDirAdapter.NestedViewHolder viewHoler, boolean p1) {
+        RecyclerView nrcv = viewHoler.getRecyclerView();
+        TextView noFile = viewHoler.getNoFile();
+        if (p1) {
+            nrcv.setVisibility(View.GONE);
+            noFile.setVisibility(View.VISIBLE);
+        } else {
+            noFile.setVisibility(View.GONE);
+            nrcv.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void diplayToRecyclerView(NestedDirAdapter.NestedViewHolder viewHoler) {
+        RecyclerView nestedRcv = viewHoler.getRecyclerView();
+        nestedRcv.setHasFixedSize(true);
+        nestedRcv.setLayoutManager(new LinearLayoutManager(cntx));
+        nda = new NestedDirAdapter(cntx,sortedFileArray);
+        nestedRcv.setAdapter(nda);
     }
 
     @Override
@@ -76,98 +135,6 @@ public class NestedDirAdapter extends RecyclerView.Adapter<NestedDirAdapter.Nest
             // ---------------------------
             //listeners object
             // ---------------------------
-            View.OnClickListener clickListenerForView = new View.OnClickListener() {
-
-                private ArrayList<File> sortedFileArray;
-
-                private NestedDirAdapter nda;
-
-                //click listener for view
-                @Override
-                public void onClick(View v1) {
-                    int position = getAdapterPosition();
-                    String parentDirPath = fileArray.get(position).getAbsolutePath();
-                    File parentDir = new File(parentDirPath);
-                    // check file is a dir or not
-                    if (parentDir.isDirectory()) {
-                        // directory, so proceed
-                        File[] allFile = parentDir.listFiles();
-                        FileSorter fs = new FileSorter(allFile);
-                        fs.sortFilesByDirectory();
-                        sortedFileArray = fs.getSortedFileArray();
-                        if (hasFile(sortedFileArray)) {
-                            setNoFileVisibility(false);
-                            displayToRecyclerView();
-                        } else {
-                            setNoFileVisibility(true);
-                        }
-                        //This will control collapse and expand
-                        try {
-                            ExpandList el = new ExpandList(arrowIcon,rl,expanded[position]);
-                            folderClickListener.onFolderClick(position, v1, el);
-                        } catch (NullPointerException e) {
-                            Toast.makeText(cntx, "error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    } else {
-                        //file, so open it inside editor
-                    }
-                }
-
-                private boolean hasFile(ArrayList<File> array) {
-                    if (array.size() > 0) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-
-                private void setNoFileVisibility(boolean p0) {
-                    if(p0) {
-                        recyclerView.setVisibility(View.GONE);
-                        noFile.setVisibility(View.VISIBLE);
-                    } else {
-                        noFile.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
-                    }
-                }
-
-                private void displayToRecyclerView() {
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(cntx));
-                    nda = new NestedDirAdapter(cntx,sortedFileArray);
-                    recyclerView.setAdapter(nda);
-                    //add listener
-                    nda.setOnFolderClickListener(new NestedDirAdapter.FolderClickListener() {
-
-                            @Override
-                            public void onFolderClick(int position, View v, ExpandList obj) {
-                                // don't need to set recyclerView just control expand collapse
-                                if(obj.isExpanded()) {
-                                    obj.getRelativeLayout().setVisibility(View.GONE);
-                                    nda.setExpanded(false, position);
-                                    obj.getDropdownIcon().setImageResource(R.drawable.ic_menu_right);
-                                } else {
-                                    obj.getRelativeLayout().setVisibility(View.VISIBLE);
-                                    nda.setExpanded(true, position);
-                                    obj.getDropdownIcon().setImageResource(R.drawable.ic_menu_down);
-                                }
-                            }
-
-                            @Override
-                            public boolean onFolderLongClick(int position, View v) {
-                                return false;
-                            }
-                        });
-                }
-            };
-            View.OnLongClickListener longClickListenerForView = new View.OnLongClickListener() {
-
-                //Long click listener
-                @Override
-                public boolean onLongClick(View p1) {
-                    return false;
-                }
-            };
             View.OnClickListener clickListenerForOptions = new View.OnClickListener() {
 
                 //option click listener
@@ -189,8 +156,6 @@ public class NestedDirAdapter extends RecyclerView.Adapter<NestedDirAdapter.Nest
             noFile = newView.findViewById(R.id.nestedDirRcvTextView1);
             
             //set listeners
-            newView.setOnClickListener(clickListenerForView);
-            newView.setOnLongClickListener(longClickListenerForView);
             infoIcon.setOnClickListener(clickListenerForOptions);
             menuIcon.setOnClickListener(clickListenerForOptions);
         }
@@ -226,9 +191,5 @@ public class NestedDirAdapter extends RecyclerView.Adapter<NestedDirAdapter.Nest
         public TextView getFolderName() {
             return folderName;
         }
-    }
-    public interface FolderClickListener {
-        void onFolderClick(int position, View v, ExpandList obj);
-        boolean onFolderLongClick(int position, View v);
     }
 }
