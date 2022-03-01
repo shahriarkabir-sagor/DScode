@@ -72,7 +72,9 @@
 			<item
 				android:id="@+id/searchId"
 				android:icon="@drawable/ic_magnify"
-				android:title="Search"/>
+				android:title="Search"
+                app:actionViewClass="androidx.appcompat.widget.SearchView"
+                app:showAsAction="always"/>
 
 			<item
 				android:id="@+id/gotoLineId"

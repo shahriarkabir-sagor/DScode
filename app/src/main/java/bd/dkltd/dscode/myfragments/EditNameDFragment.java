@@ -18,8 +18,17 @@ public class EditNameDFragment extends DialogFragment {
     private EditText edt;
     private String dirPath;
     private boolean createFile,createFolder;
+    private OnSuccessListener onSuccessListener;
+    
+    public static final boolean CREATE_SUCCESS = true;
+    public static final boolean CREATE_FAILED = false;
+    
     //empty constructor
     public EditNameDFragment() {}
+
+    public void setOnSuccessListener(OnSuccessListener onSuccessListener) {
+        this.onSuccessListener = onSuccessListener;
+    }
     
     public void setForFileCreation() {
         this.createFolder = false;
@@ -95,6 +104,11 @@ public class EditNameDFragment extends DialogFragment {
                                     try {
                                         boolean created = newFile.createNewFile();
                                         if (created) {
+                                            try {
+                                                onSuccessListener.onSuccess(created, newFile);
+                                            } catch (NullPointerException e) {
+                                                Toast.makeText(getActivity(),"Listner is not set",Toast.LENGTH_SHORT).show();
+                                            }
                                             Toast.makeText(getActivity(),"File " + strValue + " has been created",Toast.LENGTH_SHORT).show();
                                             ad.dismiss();
                                         } else {
@@ -129,5 +143,7 @@ public class EditNameDFragment extends DialogFragment {
             Toast.makeText(getActivity(), "null", Toast.LENGTH_SHORT).show();
         }
     }
-
+    public interface OnSuccessListener {
+        void onSuccess(boolean result, File createdFile);
+    }
 }

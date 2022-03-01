@@ -35,6 +35,7 @@ import androidx.webkit.WebViewAssetLoader;
 import androidx.webkit.WebViewClientCompat;
 import bd.dkltd.dscode.myfragments.MyDialogFragment;
 import java.util.ArrayList;
+import androidx.appcompat.widget.SearchView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -225,8 +226,22 @@ public class MainActivity extends AppCompatActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.overflow_menu, menu);
-		return true;
-	}
+        SearchView sv = (SearchView) menu.findItem(R.id.searchId).getActionView();
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+                @Override
+                public boolean onQueryTextSubmit(String p1) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String p1) {
+                    return false;
+                }
+            });
+            
+        return super.onCreateOptionsMenu(menu);
+    }
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -279,9 +294,6 @@ public class MainActivity extends AppCompatActivity {
 				return true;
 			case R.id.readOnlyId:
 				Toast.makeText(getApplicationContext(), "11", Toast.LENGTH_SHORT).show();
-				return true;
-			case R.id.searchId:
-				Toast.makeText(getApplicationContext(), "12", Toast.LENGTH_SHORT).show();
 				return true;
 			case R.id.gotoLineId:
 				Toast.makeText(getApplicationContext(), "13", Toast.LENGTH_SHORT).show();

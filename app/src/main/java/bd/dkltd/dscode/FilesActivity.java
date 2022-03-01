@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.ViewGroup;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,16 +13,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import bd.dkltd.dscode.myfragments.MyDialogInputPath;
-import android.widget.LinearLayout.LayoutParams;
+import java.io.File;
+import android.widget.HorizontalScrollView;
 
 public class FilesActivity extends AppCompatActivity implements ListFileFragment.OnPathReceivedCallback {
 
+    private HorizontalScrollView hsv;
     private LinearLayout ll;
-    private TextView slashView;
-    private TextView pathView;
-    private LinearLayout.LayoutParams param1;
-    private LinearLayout.LayoutParams param2;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,26 +31,8 @@ public class FilesActivity extends AppCompatActivity implements ListFileFragment
     }
 
 	private void init() {
-        //Create path navigation
+        hsv = findViewById(R.id.NavWrapHSV);
         ll = findViewById(R.id.pathNavigationHolderLL);
-        slashView = new TextView(this);
-        param1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        param1.setMarginEnd(4);
-        slashView.setLayoutParams(param1);
-        slashView.setBackgroundResource(R.color.grey);
-        slashView.setPadding(4, 0, 4, 0);
-        slashView.setText("/");
-        if (ll != null) {
-            ll.addView(slashView);
-        }
-        pathView = new TextView(this);
-        param2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        param2.setMarginStart(4);
-        param2.setMarginEnd(4);
-        pathView.setLayoutParams(param2);
-        pathView.setBackgroundResource(R.color.lightPink);
-        pathView.setPadding(4, 0, 4, 0);
-
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ListPathFragment fragment = new ListPathFragment();
@@ -102,6 +82,17 @@ public class FilesActivity extends AppCompatActivity implements ListFileFragment
     
     @Override
     public void onPathReceived(String currentPath) {
-        
+        String name = new File(currentPath).getName();
+        View childView = getLayoutInflater().inflate(R.layout.layout_nav_path,ll,false);
+        TextView pathtv = childView.findViewById(R.id.pathNavTvId);
+        pathtv.setText(name);
+        ll.addView(childView);
+        hsv.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+
+                @Override
+                public void onLayoutChange(View p1, int left, int top, int right, int bottom, int p6, int p7, int p8, int p9) {
+                    hsv.fullScroll(View.FOCUS_RIGHT);
+                }
+            });
     }
 }

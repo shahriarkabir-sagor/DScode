@@ -1,5 +1,6 @@
 package bd.dkltd.dscode;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,7 +21,7 @@ import bd.dkltd.dscode.myfragments.EditNameDFragment;
 import bd.dkltd.dscode.myfragments.MyDialogListViewFragment;
 import java.io.File;
 import java.util.ArrayList;
-import android.content.Context;
+import androidx.appcompat.widget.SearchView;
 
 public class ListFileFragment extends Fragment {
 
@@ -33,6 +34,8 @@ public class ListFileFragment extends Fragment {
     private MyFileAdapter fAdapter;
     private FragmentManager fm;
     private OnPathReceivedCallback onPathReceivedCallback;
+
+    private MyFileAdapter buAdapter;
 
     public void setOnPathReceived(OnPathReceivedCallback onPathReceived) {
         this.onPathReceivedCallback = onPathReceived;
@@ -140,6 +143,7 @@ public class ListFileFragment extends Fragment {
         rcView.setHasFixedSize(true);
         rcView.setLayoutManager(new LinearLayoutManager(fView.getContext()));
         fAdapter = new MyFileAdapter(fView.getContext(), newFileList);
+        buAdapter = fAdapter;
         rcView.setAdapter(fAdapter);
         fAdapter.setOnFileClickListener(new MyFileAdapter.ClickListener() {
 
@@ -231,6 +235,24 @@ public class ListFileFragment extends Fragment {
         menu.clear();
         // inflate a new menu
         inflater.inflate(R.menu.fmanager_menu,menu);
+        //set search
+        MenuItem searchItem = menu.findItem(R.id.fMagnifyIcon);
+        SearchView sv = (SearchView) searchItem.getActionView();
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+                @Override
+                public boolean onQueryTextSubmit(String p1) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String p1) {
+                    if (fAdapter != null) {
+                        fAdapter.getFilter().filter(p1);
+                    }
+                    return false;
+                }
+            });
         super.onCreateOptionsMenu(menu, inflater);
     }
     
@@ -256,6 +278,8 @@ public class ListFileFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }
+    
+    
 
     @Override
     public void onAttach(Context context) {

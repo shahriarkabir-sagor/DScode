@@ -7,13 +7,14 @@
         android:title="Search"
         android:icon="@drawable/ic_magnify"
         app:iconTint="@color/white"
-        app:showAsAction="ifRoom"/>
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="collapseActionView|ifRoom"/>
 
     <item
         android:id="@+id/fPlusIcon"
         android:title="Add path wrapper menu"
         android:icon="@drawable/ic_plus"
-        app:showAsAction="ifRoom">
+        app:showAsAction="always">
 
         <menu>
             <item
