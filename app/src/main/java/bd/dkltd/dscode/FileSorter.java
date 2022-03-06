@@ -26,6 +26,8 @@ public class FileSorter {
         }
         setListArray(setArray);
     }
+    //ArrayList accpeting constructor
+    
 
     //Setters
     public void setListOfFiles(File[] listOfFiles) {
@@ -35,6 +37,10 @@ public class FileSorter {
             setArray.add(singleFile);
         }
         setListArray(setArray);
+    }
+    
+    public void setArrayListOfFiles(ArrayList<File> arrayListOfFiles) {
+        setListArray(arrayListOfFiles);
     }
 
     private void setListArray(ArrayList<File> listArray) {
@@ -144,4 +150,10 @@ public class FileSorter {
     public void sortFileBySizeDesc() {
 
     }
+    
+//    //swap file in a ArrayList
+//    public void swapFileInArray(int fromPosition, int toPosition) {
+//        ArrayList<File> localArray = listArray;
+//        Collections.swap(localArray, fromPosition, toPosition);
+//    }
 }

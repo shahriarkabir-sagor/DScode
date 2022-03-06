@@ -36,6 +36,7 @@ import androidx.webkit.WebViewClientCompat;
 import bd.dkltd.dscode.myfragments.MyDialogFragment;
 import java.util.ArrayList;
 import androidx.appcompat.widget.SearchView;
+import android.widget.PopupMenu;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         //Init recyclerview and No open file layout
         rcv2 = findViewById(R.id.activitymainRecyclerView1);
         ll = findViewById(R.id.activitymainLinearLayout2);
-        
+
         // Check any open file and treat according to it
         checkOpenFile();
 
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 		WebView mWebView = findViewById(R.id.wvId);
 		WebSettings webSettings = mWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
-		    //New method
+        //New method
 		final WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder()
 			.addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this))
 			.addPathHandler("/res/", new WebViewAssetLoader.ResourcesPathHandler(this))
@@ -143,17 +144,41 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    
+
     private void displayToRecyclerView() {
-        
+
         rcv2.setHasFixedSize(true);
         rcv2.setLayoutManager(new LinearLayoutManager(this));
-        oda = new OpenedDirAdapter(this,listOfDir); //pass activity(not context) and array of files
+        oda = new OpenedDirAdapter(this, listOfDir); //pass activity(not context) and array of files
         rcv2.setAdapter(oda);
         oda.setOnOptionClickListener(new OpenedDirAdapter.OptionClickListener() {
 
                 @Override
                 public void onAddIconClick(int position, View v) {
+                    //show popup menu here
+                    PopupMenu popupMenuOptions = new PopupMenu(getApplicationContext(), v);
+                    popupMenuOptions.inflate(R.menu.popup_menu_one);
+                    popupMenuOptions.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                            @Override
+                            public boolean onMenuItemClick(MenuItem menuItem) {
+                                switch (menuItem.getItemId()) {
+                                    case R.id.ppmRename:
+                                        return true;
+                                    case R.id.ppmPaste:
+                                        return true;
+                                    case R.id.ppmNewFile:
+                                        return true;
+                                    case R.id.ppmNewFolder:
+                                        return true;
+                                    case R.id.ppmInsFile:
+                                        return true;
+                                    default:
+                                        return false;
+                                }
+                            }
+                        });
+                    popupMenuOptions.show();
                 }
 
                 @Override
@@ -163,16 +188,16 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onCrossIconClick(int position, View v) {
                     String tempPath = listOfDir.get(position).getPathSource();
-                    int affectedRow = opened_storage_db.deleteRowFrom("Opened_directory","directory_path",tempPath);
+                    int affectedRow = opened_storage_db.deleteRowFrom("Opened_directory", "directory_path", tempPath);
                     if (affectedRow > 0) {
-                        Toast.makeText(getApplicationContext(),"Row successfully deleted",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Row successfully deleted", Toast.LENGTH_SHORT).show();
                         listOfDir.remove(position);
                         oda.notifyItemRemoved(position);
                         if (listOfDir.size() <= 0) {
                             visibleNoFileViews(true);
                         }
                     } else {
-                        Toast.makeText(getApplicationContext(),"Failed to delete",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Failed to delete", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -239,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
                     return false;
                 }
             });
-            
+
         return super.onCreateOptionsMenu(menu);
     }
 

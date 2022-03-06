@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -21,7 +22,6 @@ import bd.dkltd.dscode.myfragments.EditNameDFragment;
 import bd.dkltd.dscode.myfragments.MyDialogListViewFragment;
 import java.io.File;
 import java.util.ArrayList;
-import androidx.appcompat.widget.SearchView;
 
 public class ListFileFragment extends Fragment {
 
@@ -34,8 +34,11 @@ public class ListFileFragment extends Fragment {
     private MyFileAdapter fAdapter;
     private FragmentManager fm;
     private OnPathReceivedCallback onPathReceivedCallback;
-
-    private MyFileAdapter buAdapter;
+    private ArrayList<File> newFileList;
+    private FileSorter fs;
+    private File[] allFilesAndDirs;
+    private boolean wasEmpty;
+    private MenuItem searchItem;
 
     public void setOnPathReceived(OnPathReceivedCallback onPathReceived) {
         this.onPathReceivedCallback = onPathReceived;
@@ -55,8 +58,12 @@ public class ListFileFragment extends Fragment {
         setHasOptionsMenu(true);
 
         //Retrieve path from bundle
-        pathFromArgs = getArguments().getString("dirPath", null);
-        onPathReceivedCallback.onPathReceived(pathFromArgs);
+        pathFromArgs = getArguments().getString("dirPath", "/emulated/0");
+        try {
+            onPathReceivedCallback.onPathReceived(pathFromArgs);
+        } catch(NullPointerException e) {
+            
+        }
     } 
 
     @Override
@@ -71,15 +78,153 @@ public class ListFileFragment extends Fragment {
         ll = fView.findViewById(R.id.emptyLl);
         rcView = fView.findViewById(R.id.rcvListFile1);
         selectDirBtn = fView.findViewById(R.id.selDirBtn);
+        newFileList = new ArrayList<File>();
+        fs = new FileSorter();
         fm = getActivity().getSupportFragmentManager();
         // File operation
         parentDir = new File(pathFromArgs);
-        File[] allFilesAndDirs = parentDir.listFiles();
-        fileOperations(allFilesAndDirs);
+        refreshData();
+
         //add path to Button
         initBtn(parentDir);
     }
+    
+    private void refreshData() {
+        allFilesAndDirs = parentDir.listFiles();
+        boolean shouldShowRecyclerView = fileOperations(allFilesAndDirs);
+        if (shouldShowRecyclerView) {
+            //init recyclerView and show
+            rcView.setHasFixedSize(true);
+            rcView.setLayoutManager(new LinearLayoutManager(fView.getContext()));
+            fAdapter = new MyFileAdapter(fView.getContext(), newFileList);
+            rcView.setAdapter(fAdapter);
+            //handle recyclerView callback (listener)
+            recycleCallBackHandler(newFileList);
+        } else {
+            //Here means empty files
+            wasEmpty = true;
+        }
+    }
 
+    private boolean fileOperations(File[] allFilesAndDir) {
+        boolean result = false;
+        if (!emptyChecker(allFilesAndDir)) {
+            //Differentiate folders and Files and sort them
+            fs.setListOfFiles(allFilesAndDir);
+            fs.filterHiddenDirs();
+            fs.sortFilesByNameAscIgnoreCase();
+            fs.sortFilesByDirectory();
+            newFileList = fs.getSortedFileArray();
+            // check sorted fileArry is empty or not
+            if (newFileList.size() > 0) {
+                noFileMethod(false);
+                result = true;
+            } else {
+                noFileMethod(true);
+            }
+
+        } else {
+            noFileMethod(true);
+        }
+        return result;
+    }
+    
+    private boolean emptyChecker(File[] allFilesAndDir) {
+        if (allFilesAndDir.length == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void noFileMethod(boolean p0) {
+        if (p0) {
+            rcView.setVisibility(View.GONE);
+            ll.setVisibility(View.VISIBLE);
+        } else {
+            ll.setVisibility(View.GONE);
+            rcView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void recycleCallBackHandler(ArrayList<File> argList) {
+        final ArrayList<File> fList = argList;
+        fAdapter.setOnFileClickListener(new MyFileAdapter.ClickListener() {
+
+                @Override
+                public void onItemClick(int position, View v) {
+                    String absPath = fList.get(position).getAbsolutePath();
+                    File clickedFile = new File(absPath);
+                    String dirName = fList.get(position).getName();
+                    if (checkFile(clickedFile)) {
+                        ListFileFragment lff = new ListFileFragment();
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                        FragmentTransaction ft = fm.beginTransaction();
+                        ft.replace(R.id.frLayId, lff.newInstance(absPath), "Opening directoy " + dirName);
+                        ft.addToBackStack("inside file browser");
+                        ft.commit();
+                        //check searchview and close
+                        if(searchItem.isActionViewExpanded()) {
+                            searchItem.collapseActionView();
+                        }
+                    } else {
+                        //Here means it is a file
+                        Toast.makeText(getActivity(), "Can't open file: " + dirName, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                private boolean checkFile(File clickedFile) {
+                    if (clickedFile.isDirectory()) {
+                        return true;  
+                    } else {
+                        return false;
+                    }
+                }
+
+                @Override
+                public void onItemLongClick(final int position, View v) {
+                    String absPath = fList.get(position).getAbsolutePath();
+                    final File clickedFile = new File(absPath);
+                    final String dirName = fList.get(position).getName();
+
+                    MyDialogListViewFragment fileAction = new MyDialogListViewFragment();
+                    fileAction.setDialogTitle("Choose Action:");
+                    fileAction.setDialogItemId(R.array.file_action);
+                    fileAction.setDialogItemClickListener(new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dInterface, int indexPosition) {
+                                switch (indexPosition) {
+                                    case 0:
+                                        //Rename the file
+
+                                        break;
+                                    case 1:
+                                        //Delete the File
+                                        boolean isDeleted = clickedFile.delete();
+                                        if (isDeleted) {
+                                            Toast.makeText(getActivity(), dirName + " successfully deleted ", Toast.LENGTH_SHORT).show();
+                                            fList.remove(position);
+                                            fAdapter.notifyItemRemoved(position);
+                                            //now also check if the directory became empty or not
+                                            if (fList.size() == 0) {
+                                                noFileMethod(true);
+                                            }
+                                        } else {
+                                            Toast.makeText(getActivity(), "Can't delete " + dirName, Toast.LENGTH_SHORT).show();
+                                        }
+                                        break;
+                                    default:
+                                        //Unknown action
+                                        Toast.makeText(getActivity(), "Can't perform this action", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    fileAction.show(getActivity().getFragmentManager(), "show file action");
+                }
+            });
+    }
+    
     private void initBtn(File currentDirectory) {
         if (currentDirectory.exists()) {
             final String path = currentDirectory.getAbsolutePath();
@@ -103,129 +248,33 @@ public class ListFileFragment extends Fragment {
          Toast.makeText(getActivity(),"Can't open this folder",Toast.LENGTH_LONG).show();
          } */
     }
-
-    private void fileOperations(File[] allFilesAndDir) {
-        if (!emptyChecker(allFilesAndDir)) {
-            //Differentiate folders and Files and sort them
-            FileSorter fs = new FileSorter();
-            fs.setListOfFiles(allFilesAndDir);
-            fs.filterHiddenDirs();
-            fs.sortFilesByNameAscIgnoreCase();
-            fs.sortFilesByDirectory();
-            ArrayList<File> newFileList = fs.getSortedFileArray();
-            // check sorted fileArry is empty or not
-            if (newFileList.size() > 0) {
-                noFileMethod(false);
-                //Then pass the sorted file List to recycleHandler
-                recycleHandler(newFileList);
-            } else {
+    
+    private void subRefresh() {
+        if(wasEmpty) {
+            //RecyclerView is not used b'cz it file was empty
+            // So set method to it now
+            rcView.setHasFixedSize(true);
+            rcView.setLayoutManager(new LinearLayoutManager(fView.getContext()));
+            fAdapter = new MyFileAdapter(fView.getContext(), newFileList);
+            rcView.setAdapter(fAdapter);
+            //handle recyclerView callback (listener)
+            recycleCallBackHandler(newFileList);
+            // visible the recyclerView
+            noFileMethod(false);
+            //We have added data, so set wasEmpty to false
+            wasEmpty = false;
+        }
+    }
+    
+    private void manageHidden(File modifiedFolder) {
+        if(modifiedFolder.isHidden()) {
+            int position = newFileList.indexOf(modifiedFolder);
+            newFileList.remove(position);
+            fAdapter.notifyItemRemoved(position);
+            Toast.makeText(getActivity(),"Folder hidden",Toast.LENGTH_SHORT).show();
+            if(newFileList.size() == 0) {
                 noFileMethod(true);
             }
-
-        } else {
-            noFileMethod(true);
-        }
-    }
-
-    private void noFileMethod(boolean p0) {
-        if (p0) {
-            rcView.setVisibility(View.GONE);
-            ll.setVisibility(View.VISIBLE);
-        } else {
-            ll.setVisibility(View.GONE);
-            rcView.setVisibility(View.VISIBLE);
-        }
-    }
-
-
-
-    private void recycleHandler(final ArrayList<File> newFileList) {
-        rcView.setHasFixedSize(true);
-        rcView.setLayoutManager(new LinearLayoutManager(fView.getContext()));
-        fAdapter = new MyFileAdapter(fView.getContext(), newFileList);
-        buAdapter = fAdapter;
-        rcView.setAdapter(fAdapter);
-        fAdapter.setOnFileClickListener(new MyFileAdapter.ClickListener() {
-
-                @Override
-                public void onItemClick(int position, View v) {
-                    String absPath = newFileList.get(position).getAbsolutePath();
-                    File clickedFile = new File(absPath);
-                    String dirName = newFileList.get(position).getName();
-                    if (checkFile(clickedFile)) {
-                        ListFileFragment lff = new ListFileFragment();
-                        FragmentManager fm = getActivity().getSupportFragmentManager();
-                        FragmentTransaction ft = fm.beginTransaction();
-                        ft.replace(R.id.frLayId, lff.newInstance(absPath), "Opening directoy " + dirName);
-                        ft.addToBackStack("inside file browser");
-                        ft.commit();
-                    } else {
-                        //Here means it is a file
-                        Toast.makeText(getActivity(), "Can't open file: " + dirName, Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                private boolean checkFile(File clickedFile) {
-                    if (clickedFile.isDirectory()) {
-                        return true;  
-                    } else {
-                        return false;
-                    }
-                }
-
-                @Override
-                public void onItemLongClick(final int position, View v) {
-                    String absPath = newFileList.get(position).getAbsolutePath();
-                    final File clickedFile = new File(absPath);
-                    final String dirName = newFileList.get(position).getName();
-
-                    MyDialogListViewFragment fileAction = new MyDialogListViewFragment();
-                    fileAction.setDialogTitle("Choose Action:");
-                    fileAction.setDialogItemId(R.array.file_action);
-                    fileAction.setDialogItemClickListener(new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dInterface, int indexPosition) {
-                                switch (indexPosition) {
-                                    case 0:
-                                        //Rename the file
-
-                                        break;
-                                    case 1:
-                                        //store the parent directory before deleting it
-                                        String localParentDirPath = clickedFile.getParent();
-                                        File localParentDirectory = new File(localParentDirPath);
-                                        //Delete the File
-                                        boolean isDeleted = clickedFile.delete();
-                                        if (isDeleted) {
-                                            Toast.makeText(getActivity(), dirName + " successfully deleted ", Toast.LENGTH_SHORT).show();
-                                            newFileList.remove(position);
-                                            fAdapter.notifyItemRemoved(position);
-                                            //now also check if the directory became empty or not
-                                            File[] listParent = localParentDirectory.listFiles();
-                                            if (emptyChecker(listParent)) {
-                                                noFileMethod(true);
-                                            }
-                                        } else {
-                                            Toast.makeText(getActivity(), "Can't delete " + dirName, Toast.LENGTH_SHORT).show();
-                                        }
-                                        break;
-                                    default:
-                                        //Unknown action
-                                        Toast.makeText(getActivity(), "Can't perform this action", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    fileAction.show(getActivity().getFragmentManager(), "show file action");
-                }
-            });
-    }
-
-    private boolean emptyChecker(File[] allFilesAndDir) {
-        if (allFilesAndDir.length == 0 || allFilesAndDir == null) {
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -234,9 +283,9 @@ public class ListFileFragment extends Fragment {
         //clear the menu that comes from FilesActivity
         menu.clear();
         // inflate a new menu
-        inflater.inflate(R.menu.fmanager_menu,menu);
+        inflater.inflate(R.menu.fmanager_menu, menu);
         //set search
-        MenuItem searchItem = menu.findItem(R.id.fMagnifyIcon);
+        searchItem = menu.findItem(R.id.fMagnifyIcon);
         SearchView sv = (SearchView) searchItem.getActionView();
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -255,42 +304,115 @@ public class ListFileFragment extends Fragment {
             });
         super.onCreateOptionsMenu(menu, inflater);
     }
-    
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.fNewFile:
-                EditNameDFragment endf1 = EditNameDFragment.newInstance("Enter File Name: ","Create","Cancel",null);
+                EditNameDFragment endf1 = EditNameDFragment.newInstance("Enter File Name: ", "Create", "Cancel", null);
                 endf1.checkExistance(parentDir.getAbsolutePath());
                 endf1.setForFileCreation();
-                endf1.show(fm,"Create file");
+                //set onSuccess listener here
+                endf1.setOnSuccessListener(new EditNameDFragment.OnSuccessListener() {
+
+                        @Override
+                        public void onSuccess(boolean result, File createdFile) {
+                            //check file is created or not
+                            if (result && createdFile.exists()) {
+                                int indPos;
+                                if (newFileList.size() > 0) {
+                                    //determine in which position the file should be added
+                                    FileSorter fs2 = new FileSorter();
+                                    ArrayList<File> tempArray = new ArrayList<File>(newFileList);
+                                    tempArray.add(createdFile);
+                                    fs2.setArrayListOfFiles(tempArray);
+                                    fs2.filterHiddenDirs();
+                                    fs2.sortFilesByNameAscIgnoreCase();
+                                    fs2.sortFilesByDirectory();
+                                    tempArray = fs2.getSortedFileArray();
+                                    indPos = tempArray.indexOf(createdFile);
+                                    //add it to array
+                                    newFileList.add(indPos,createdFile);
+                                } else {
+                                    newFileList.add(createdFile);
+                                    indPos = newFileList.indexOf(createdFile);
+                                }
+                                //call subRefresh
+                                subRefresh();
+                                //notify adapter
+                                fAdapter.notifyItemInserted(indPos);
+                                //scroll to position
+                                rcView.scrollToPosition(indPos);
+                            }
+                        }
+                    });
+                endf1.show(fm, "Create file");
                 return true;
             case R.id.fNewFolder:
-                EditNameDFragment endf2 = EditNameDFragment.newInstance("Enter Folder Name: ","Create","Cancel",null);
+                EditNameDFragment endf2 = EditNameDFragment.newInstance("Enter Folder Name: ", "Create", "Cancel", null);
                 endf2.checkExistance(parentDir.getAbsolutePath());
                 endf2.setForFolderCreation();
-                endf2.show(fm,"Create folder");
+                //set onSuccessListener
+                endf2.setOnSuccessListener(new EditNameDFragment.OnSuccessListener() {
+
+                        @Override
+                        public void onSuccess(boolean result, File createdFolder) {
+                            // check folder is created or not
+                            if (result && createdFolder.exists()) {
+                                int indPos;
+                                if(!wasEmpty) {
+                                    //determine in which position the file should be added
+                                    FileSorter fs2 = new FileSorter();
+                                    ArrayList<File> tempArray = new ArrayList<File>(newFileList);
+                                    tempArray.add(createdFolder);
+                                    fs2.setArrayListOfFiles(tempArray);
+                                    fs2.filterHiddenDirs();
+                                    fs2.sortFilesByNameAscIgnoreCase();
+                                    fs2.sortFilesByDirectory();
+                                    tempArray = fs2.getSortedFileArray();
+                                    indPos = tempArray.indexOf(createdFolder);
+                                    //add it to arraylist
+                                    newFileList.add(indPos, createdFolder);
+                                } else {
+                                    //add it to arraylist
+                                    newFileList.add(createdFolder);
+                                    indPos = newFileList.indexOf(createdFolder);
+                                }
+                                //call subrefresh
+                                subRefresh();
+                                //notify adapter
+                                fAdapter.notifyItemInserted(indPos);
+                                //scroll to position
+                                rcView.scrollToPosition(indPos);
+                                //check created folder is a hidden directory or not
+                                //and take action according to it
+                                manageHidden(createdFolder);
+                            }
+                        }
+                    });
+                endf2.show(fm, "Create folder");
                 return true;
             case R.id.fNewProj:
+                return true;
+            case R.id.fReload:
+                refreshData();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-    
-    
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-        onPathReceivedCallback = (ListFileFragment.OnPathReceivedCallback) context;
-        } catch(ClassCastException e) {
-            Toast.makeText(getActivity(),"Error: " + e.getMessage(),Toast.LENGTH_SHORT).show();
+            onPathReceivedCallback = (ListFileFragment.OnPathReceivedCallback) context;
+        } catch (ClassCastException e) {
+            Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-    
+
     public interface OnPathReceivedCallback {
         void onPathReceived(String currentPath);
     }

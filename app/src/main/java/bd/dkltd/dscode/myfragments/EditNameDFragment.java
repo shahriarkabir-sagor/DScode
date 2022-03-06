@@ -19,22 +19,22 @@ public class EditNameDFragment extends DialogFragment {
     private String dirPath;
     private boolean createFile,createFolder;
     private OnSuccessListener onSuccessListener;
-    
+
     public static final boolean CREATE_SUCCESS = true;
     public static final boolean CREATE_FAILED = false;
-    
+
     //empty constructor
     public EditNameDFragment() {}
 
     public void setOnSuccessListener(OnSuccessListener onSuccessListener) {
         this.onSuccessListener = onSuccessListener;
     }
-    
+
     public void setForFileCreation() {
         this.createFolder = false;
         this.createFile = true;
     }
-    
+
     public void setForFolderCreation() {
         this.createFile = false;
         this.createFolder = true;
@@ -81,6 +81,7 @@ public class EditNameDFragment extends DialogFragment {
     public void onResume() {
         super.onResume();
         final AlertDialog ad = (AlertDialog) getDialog();
+        String logs1 = "";
         if (ad != null) {
             //get button and editText
             Button positiveBtn = ad.getButton(Dialog.BUTTON_POSITIVE);
@@ -90,6 +91,7 @@ public class EditNameDFragment extends DialogFragment {
                     @Override
                     public void onClick(View p1) {
                         String strValue = localEdt.getText().toString();
+                        String logs = "";
                         //start validation
                         if (strValue.isEmpty()) {
                             localEdt.setError("Empty Field");
@@ -104,27 +106,32 @@ public class EditNameDFragment extends DialogFragment {
                                     try {
                                         boolean created = newFile.createNewFile();
                                         if (created) {
-                                            try {
-                                                onSuccessListener.onSuccess(created, newFile);
-                                            } catch (NullPointerException e) {
-                                                Toast.makeText(getActivity(),"Listner is not set",Toast.LENGTH_SHORT).show();
-                                            }
-                                            Toast.makeText(getActivity(),"File " + strValue + " has been created",Toast.LENGTH_SHORT).show();
+                                            logs += "File " + strValue + " has been created\n";
                                             ad.dismiss();
                                         } else {
-                                            Toast.makeText(getActivity(),"Some error occured",Toast.LENGTH_SHORT).show();
+                                            logs += "File " + strValue + " has not been created\n";
+                                        }
+                                        try {
+                                            onSuccessListener.onSuccess(created, newFile);
+                                        } catch (NullPointerException e) {
+                                            logs += "Listner is not set\n";
                                         }
                                     } catch (IOException e) {
-                                        Toast.makeText(getActivity(),"Error " + strValue,Toast.LENGTH_SHORT).show();
+                                        logs += "Error " + strValue + "\n";
                                     }
                                 } else if (createFolder) {
                                     //we have to create folder
                                     boolean created = newFile.mkdir();
                                     if (created) {
-                                        Toast.makeText(getActivity(),"Folder " + strValue + " has been created",Toast.LENGTH_SHORT).show();
+                                        logs += "Folder " + strValue + " has been created \n";
                                         ad.dismiss();
                                     } else {
-                                        Toast.makeText(getActivity(),"Some error occured",Toast.LENGTH_SHORT).show();
+                                        logs += "Some error occured\n";
+                                    }
+                                    try {
+                                        onSuccessListener.onSuccess(created, newFile);
+                                    } catch (NullPointerException e) {
+                                        logs += "Listner is not set for folder\n";
                                     }
                                 }
                             } else {
@@ -133,14 +140,15 @@ public class EditNameDFragment extends DialogFragment {
                                 localEdt.requestFocus();
                             }
                         } else {
-                            Toast.makeText(getActivity(),"Can't create anything here",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Can't create anything here", Toast.LENGTH_SHORT).show();
                             ad.dismiss();
-                        } 
+                        }
+                        //Toast.makeText(getActivity(), logs, Toast.LENGTH_LONG).show();
                     }
                 });
 
         } else {
-            Toast.makeText(getActivity(), "null", Toast.LENGTH_SHORT).show();
+            logs1 += "Dialog is null";
         }
     }
     public interface OnSuccessListener {

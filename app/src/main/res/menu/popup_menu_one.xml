@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <item
+        android:id="@+id/ppmRename"
+        android:title="Rename"
+        android:icon="@drawable/ic_rename_box"/>
+    
+    <item
+        android:id="@+id/ppmPaste"
+        android:title="Paste"
+        android:icon="@drawable/ic_content_paste"/>
+    
+    <item
+        android:id="@+id/ppmNewFile"
+        android:title="New File"
+        android:icon="@drawable/ic_file_plus"/>
+    
+    <item
+        android:id="@+id/ppmNewFolder"
+        android:title="New Folder"
+        android:icon="@drawable/ic_folder_plus"/>
+    
+    <item
+        android:id="@+id/ppmInsFile"
+        android:title="Insert File"
+        android:icon="@drawable/ic_note_plus"/>
+    
+</menu>

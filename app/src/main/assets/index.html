@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!--Meta information-->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -8,22 +9,17 @@
   <!-- link codemirror -->
   <script src="lib/codemirror.js"></script>
   <link rel="stylesheet" href="lib/codemirror.css">
+  <!--link different modes-->
   <script src="mode/javascript/javascript.js"></script>
+  <!--Link addons-->
   <script src="addon/selection/active-line.js" type="text/javascript" charset="utf-8"></script>
   <script src="addon/edit/matchbrackets.js" type="text/javascript" charset="utf-8"></script>
+  <!--Own style-->
+  <link rel="stylesheet" href="ide/css/editor.css" type="text/css" media="all" />
 </head>
 <body>
-
-  <script type="text/javascript" charset="utf-8">
-  var myCodeEditor = CodeMirror(document.body,
-  {
-    styleActiveLine: true,
-    lineNumbers: true,
-    autofocus: true,
-    lineWrapping: true,
-    matchBrackets: true,
-    autoCloseBrackets: true
-  });
-  </script>
+  
+  <!--Initialize the editor-->
+  <script src="ide/js/editor.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>

@@ -131,7 +131,6 @@ public class OpenedDirAdapter extends RecyclerView.Adapter<OpenedDirAdapter.ODAH
         private final TextView folderName,noFileTV;
         private final RelativeLayout rl;
         private final RecyclerView nestedRcv;
-        private NestedDirAdapter nda;
         public ODAHolder(View view) {
             super(view);  
             //listeners

@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,7 +15,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import bd.dkltd.dscode.myfragments.MyDialogInputPath;
 import java.io.File;
-import android.widget.HorizontalScrollView;
 
 public class FilesActivity extends AppCompatActivity implements ListFileFragment.OnPathReceivedCallback {
 

@@ -7,8 +7,8 @@
         android:title="Search"
         android:icon="@drawable/ic_magnify"
         app:iconTint="@color/white"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="collapseActionView|ifRoom"/>
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
     <item
         android:id="@+id/fPlusIcon"

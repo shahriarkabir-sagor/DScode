@@ -18,13 +18,13 @@ public class MyFileAdapter extends RecyclerView.Adapter<MyFileAdapter.MyFileView
 
     private Context context;
 	private ArrayList<File> allFiles;
-    private ArrayList<File> searchableFile;
+    private ArrayList<File> backupFiles;
     private ClickListener clickListener;
 
     public MyFileAdapter(Context context, ArrayList<File> allFiles) {
         this.context = context;
         this.allFiles = allFiles;
-        this.searchableFile = new ArrayList<File>(allFiles);
+        this.backupFiles = new ArrayList<File>(allFiles);
     }
 
     public void setOnFileClickListener(ClickListener clickListener) {
@@ -66,7 +66,7 @@ public class MyFileAdapter extends RecyclerView.Adapter<MyFileAdapter.MyFileView
     }
 
     // custom filter
-    Filter filter = new Filter() {
+    private Filter filter = new Filter() {
 
         @Override
         protected Filter.FilterResults performFiltering(CharSequence keyword) {
@@ -76,10 +76,11 @@ public class MyFileAdapter extends RecyclerView.Adapter<MyFileAdapter.MyFileView
             keyword.length() == 0 ||
             keyword.toString().isEmpty()
                 ) {
-                searchedArray.addAll(allFiles);
+                searchedArray.addAll(backupFiles);
             } else {
-                for (File singleFile : searchableFile) {
-                    if (singleFile.getName().toString().toLowerCase().contains(keyword.toString().toLowerCase())) {
+                String filterPattern = keyword.toString().toLowerCase().trim();
+                for (File singleFile : backupFiles) {
+                    if (singleFile.getName().toString().toLowerCase().contains(filterPattern)) {
                         searchedArray.add(singleFile);
                     }
                 }

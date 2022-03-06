@@ -14,6 +14,8 @@ import java.util.Arrays;
 import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import bd.dkltd.dscode.NestedDirAdapter.NestedViewHolder;
+import android.widget.PopupMenu;
+import android.view.MenuItem;
 
 public class NestedDirAdapter extends RecyclerView.Adapter<NestedDirAdapter.NestedViewHolder> {
 
@@ -29,9 +31,9 @@ public class NestedDirAdapter extends RecyclerView.Adapter<NestedDirAdapter.Nest
         this.fileArray = fileArray;
         int boolArraySize = fileArray.size();
         expanded = new Boolean[boolArraySize];
-        Arrays.fill(expanded,Boolean.FALSE);
+        Arrays.fill(expanded, Boolean.FALSE);
     }
-    
+
     public void setExpanded(boolean expanded, int position) {
         this.expanded[position] = expanded;
     }
@@ -52,7 +54,7 @@ public class NestedDirAdapter extends RecyclerView.Adapter<NestedDirAdapter.Nest
         String name = fileArray.get(position).getName();
         viewHolder.getFolderName().setText(name);
         File selectedFile = new File(fileArray.get(position).getAbsolutePath());
-        boolean isDirectory = selectedFile.isDirectory();
+        final boolean isDirectory = selectedFile.isDirectory();
         if (isDirectory) {
             File[] allFile = selectedFile.listFiles();
             FileSorter fs = new FileSorter(allFile);
@@ -83,10 +85,39 @@ public class NestedDirAdapter extends RecyclerView.Adapter<NestedDirAdapter.Nest
                         }
                     }
                 });
-        }else if (!isDirectory) {
+        } else if (!isDirectory) {
             viewHolder.getFolderIcon().setImageResource(R.drawable.ic_file_document);
             viewHolder.getArrowIcon().setVisibility(View.INVISIBLE);
         }
+        // set listener to options
+        View.OnClickListener optionClickListener = new View.OnClickListener() {
+
+            @Override
+            public void onClick(View p1) {
+                if (p1.getId() == R.id.nestedSVMenuIcon) {
+                    PopupMenu pmenu = new PopupMenu(cntx, p1);
+                    if (isDirectory) {
+                        pmenu.inflate(R.menu.popup_menu_two);
+                    } else {
+                        pmenu.inflate(R.menu.popup_menu_three);
+                    }
+                    pmenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                            @Override
+                            public boolean onMenuItemClick(MenuItem p1) {
+                                switch (p1.getItemId()) {
+                                        
+                                    default:
+                                        return false;
+                                }
+                            }
+                        });
+                    pmenu.show();
+                } else {
+                    //Do nothing for now
+                }
+            }
+        };
     }
 
     private boolean hasFile(ArrayList<File> array) {
@@ -113,7 +144,7 @@ public class NestedDirAdapter extends RecyclerView.Adapter<NestedDirAdapter.Nest
         RecyclerView nestedRcv = viewHoler.getRecyclerView();
         nestedRcv.setHasFixedSize(true);
         nestedRcv.setLayoutManager(new LinearLayoutManager(cntx));
-        nda = new NestedDirAdapter(cntx,sortedFileArray);
+        nda = new NestedDirAdapter(cntx, sortedFileArray);
         nestedRcv.setAdapter(nda);
     }
 
@@ -123,26 +154,14 @@ public class NestedDirAdapter extends RecyclerView.Adapter<NestedDirAdapter.Nest
     }
 
     public class NestedViewHolder extends RecyclerView.ViewHolder {
-        
+
         private final ImageView infoIcon,menuIcon,arrowIcon,folderIcon;
         private final TextView folderName,noFile;
         private final RelativeLayout rl;
         private final RecyclerView recyclerView;
-        
+
         public NestedViewHolder(View newView) {
             super(newView);
-            
-            // ---------------------------
-            //listeners object
-            // ---------------------------
-            View.OnClickListener clickListenerForOptions = new View.OnClickListener() {
-
-                //option click listener
-                @Override
-                public void onClick(View p1) {
-                    
-                }
-            };
 
             // ---------------
             //init everything
@@ -154,10 +173,7 @@ public class NestedDirAdapter extends RecyclerView.Adapter<NestedDirAdapter.Nest
             rl = newView.findViewById(R.id.nestedSVRelativeLayout1);
             recyclerView = newView.findViewById(R.id.nestedDirRcvRecyclerView1);
             noFile = newView.findViewById(R.id.nestedDirRcvTextView1);
-            
-            //set listeners
-            infoIcon.setOnClickListener(clickListenerForOptions);
-            menuIcon.setOnClickListener(clickListenerForOptions);
+
         }
 
         public RecyclerView getRecyclerView() {
