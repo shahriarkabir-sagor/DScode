@@ -3,6 +3,7 @@ package bd.dkltd.dscode;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,7 @@ import bd.dkltd.dscode.myfragments.EditNameDFragment;
 import bd.dkltd.dscode.myfragments.MyDialogListViewFragment;
 import java.io.File;
 import java.util.ArrayList;
+import android.os.Looper;
 
 public class ListFileFragment extends Fragment {
 
@@ -263,6 +265,8 @@ public class ListFileFragment extends Fragment {
             noFileMethod(false);
             //We have added data, so set wasEmpty to false
             wasEmpty = false;
+        } else if(newFileList.size() > 0) {
+            noFileMethod(false);
         }
     }
     
@@ -357,11 +361,11 @@ public class ListFileFragment extends Fragment {
                 endf2.setOnSuccessListener(new EditNameDFragment.OnSuccessListener() {
 
                         @Override
-                        public void onSuccess(boolean result, File createdFolder) {
+                        public void onSuccess(boolean result, final File createdFolder) {
                             // check folder is created or not
                             if (result && createdFolder.exists()) {
                                 int indPos;
-                                if(!wasEmpty) {
+                                if(newFileList.size() > 0) {
                                     //determine in which position the file should be added
                                     FileSorter fs2 = new FileSorter();
                                     ArrayList<File> tempArray = new ArrayList<File>(newFileList);
@@ -387,7 +391,14 @@ public class ListFileFragment extends Fragment {
                                 rcView.scrollToPosition(indPos);
                                 //check created folder is a hidden directory or not
                                 //and take action according to it
-                                manageHidden(createdFolder);
+                                Handler handler = new Handler(Looper.getMainLooper());
+                                handler.postDelayed(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            manageHidden(createdFolder);
+                                        }
+                                    }, 1100);
                             }
                         }
                     });
