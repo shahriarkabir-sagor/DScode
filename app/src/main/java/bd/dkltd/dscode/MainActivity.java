@@ -37,6 +37,7 @@ import bd.dkltd.dscode.myfragments.MyDialogFragment;
 import java.util.ArrayList;
 import androidx.appcompat.widget.SearchView;
 import android.widget.PopupMenu;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
     private OpenedDirAdapter oda;
 	private SharedPreferences sPrefs;
 	private SharedPreferences.Editor sPrefsEditor;
+    private LinearLayout lnlo;
+    private ImageView bottomFloatingIcon;
+
+    private boolean isBfiExpanded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,10 +97,17 @@ public class MainActivity extends AppCompatActivity {
 		mWebView.setWebViewClient(new LocalContentWebViewClient(assetLoader)); //calling private class LocalContentWebViewClient
 		mWebView.loadUrl("https://appassets.androidplatform.net/assets/index.html");
 		/*
-         //Old method, new method works with https means better security
-
+         //Old method
          mWebView.loadUrl("file:///android_asset/index.html");
+         
+         //new method works with https means better security
+         //and also new method will support js import.
          */
+//        if(!mWebView.isFocusedByDefault()) {
+//            mWebView.requestFocus();
+//        } else {
+//            //Toast.makeText(this, "Focussed by Default",Toast.LENGTH_SHORT).show();
+//        }
 		mWebView.requestFocusFromTouch();
         // ----------------------------------
 
@@ -115,6 +127,27 @@ public class MainActivity extends AppCompatActivity {
 			//Permissions given save the path
 			savePath();
 		}
+        //boolean value
+        isBfiExpanded = false;
+        
+        //initiate views
+        lnlo = findViewById(R.id.layoutappbarLinearLayout1);
+        bottomFloatingIcon = findViewById(R.id.labFloatingDownImg1);
+        bottomFloatingIcon.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View p1) {
+                    if (isBfiExpanded == true) {
+                        lnlo.setVisibility(View.GONE);
+                        bottomFloatingIcon.setImageResource(R.drawable.ic_chevron_down_circle);
+                        isBfiExpanded = false;
+                    } else {
+                        lnlo.setVisibility(View.VISIBLE);
+                        bottomFloatingIcon.setImageResource(R.drawable.ic_chevron_up_circle);
+                        isBfiExpanded = true;
+                    }
+                }
+            });
     }
 
     private void checkOpenFile() {
@@ -146,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayToRecyclerView() {
-
         rcv2.setHasFixedSize(true);
         rcv2.setLayoutManager(new LinearLayoutManager(this));
         oda = new OpenedDirAdapter(this, listOfDir); //pass activity(not context) and array of files

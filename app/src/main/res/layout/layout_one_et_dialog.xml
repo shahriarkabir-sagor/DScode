@@ -11,7 +11,8 @@
 		android:inputType="textPersonName"
 		android:layout_height="wrap_content"
 		android:ems="10"
-		android:id="@+id/createFileNameId"/>
+		android:id="@+id/createFileNameId"
+        android:imeOptions="actionDone"/>
 
 </LinearLayout>
 
