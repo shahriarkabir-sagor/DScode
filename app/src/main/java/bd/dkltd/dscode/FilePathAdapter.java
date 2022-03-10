@@ -1,85 +1,81 @@
 package bd.dkltd.dscode;
 
-import androidx.recyclerview.widget.RecyclerView;
-import android.view.ViewGroup;
-import android.view.View;
-import android.annotation.NonNull;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.widget.TextView;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
-import bd.dkltd.dscode.FilePathAdapter.ClickListener;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 
-public class FilePathAdapter extends RecyclerView.Adapter<FilePathAdapter.MyViewHolder> {
-	
-	private Context context;
-	private int[] images;
-	private ArrayList<Paths> pathRcrd;
-	private static FilePathAdapter.ClickListener clickListener;
+public class FilePathAdapter extends RecyclerView.Adapter<FilePathAdapter.Holder> {
 
-	public FilePathAdapter(Context context, int[] images, ArrayList<Paths> pathRcrd) {
-		this.context = context;
-		this.images = images;
-		this.pathRcrd = pathRcrd;
-	}
+    private Context cntx;
+    private ArrayList<SrcPaths> srcPathsAndName;
+    private static ClickListener clickListener;
 
-	
+    public FilePathAdapter(Context cntx, ArrayList<SrcPaths> srcPathsAndName) {
+        this.cntx = cntx;
+        this.srcPathsAndName = srcPathsAndName;
+    }
 
-	@Override
-	public FilePathAdapter.MyViewHolder onCreateViewHolder(ViewGroup p1, int p2) {
-		LayoutInflater inflater = LayoutInflater.from(context);
-		View v = inflater.inflate(R.layout.layout_path_rcv,p1,false);
-		return new MyViewHolder(v);
-	}
+    public static void setOnRecycleItemClickListener(ClickListener clickListener) {
+        FilePathAdapter.clickListener = clickListener;
+    }
 
-	@Override
-	public void onBindViewHolder(FilePathAdapter.MyViewHolder p1, int i) {
-		String pathName =  pathRcrd.get(i).getPathName();
-		p1.tv1.setText(pathName);
-		if (i == 0) {
-			p1.img1.setImageResource(images[0]);
-		} else {
-			p1.img1.setImageResource(images[1]);
-		}
-	}
+    @Override
+    public FilePathAdapter.Holder onCreateViewHolder(ViewGroup parent, int p2) {
 
-	@Override
-	public int getItemCount() {
-		return pathRcrd.size();
-	}
-	
-	class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_path_rcv,parent,false);
+        return new Holder(view);
+    }
 
-		@Override
-		public void onClick(View v1) {
-			clickListener.onItemClick(getAdapterPosition(),v1);
-		}
+    @Override
+    public void onBindViewHolder(FilePathAdapter.Holder viewHolder, int position) {
+        String nameOfPath = srcPathsAndName.get(position).getPathName();
+        viewHolder.getTv().setText(nameOfPath);
+    }
 
-		@Override
-		public boolean onLongClick(View v1) {
-			clickListener.onItemLongClick(getAdapterPosition(),v1);
-			return true;
-		}
+    @Override
+    public int getItemCount() {
+        return srcPathsAndName.size();
+    }
 
-		
-		private TextView tv1;
-		private ImageView img1;
 
-		public MyViewHolder(@NonNull View view) {
-			super(view);
-			tv1 = view.findViewById(R.id.pathRcvTv1);
-			img1 = view.findViewById(R.id.pathRcvImgv1);
-			view.setOnClickListener(this);
-			view.setOnLongClickListener(this);
-		}
-	}
-	public interface ClickListener{
-		void onItemClick(int position, View v);
-		void onItemLongClick(int position, View v);
-	}
-	public void setOnItemClickListener(ClickListener clickListener) {
-		FilePathAdapter.clickListener = clickListener;
-	}
+    public class Holder extends RecyclerView.ViewHolder implements OnClickListener,OnLongClickListener {
+
+        private final ImageView imgView;
+        private final TextView tv;
+
+        @Override
+        public void onClick(View v1) {
+            clickListener.onItemClick(getAdapterPosition(),v1);
+        }
+
+        @Override
+        public boolean onLongClick(View v1) {
+            clickListener.onItemLongClick(getAdapterPosition(),v1);
+            return true;
+        }
+
+        public Holder(View itemView) {
+            super(itemView);
+            imgView = itemView.findViewById(R.id.pathRcvImgv1);
+            tv = itemView.findViewById(R.id.pathRcvTv1);
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+        }
+
+        public TextView getTv() {
+            return tv;
+        }
+    }
+    public interface ClickListener {
+        void onItemClick(int position, View v);
+        void onItemLongClick(int position, View v);
+    }
 }
 

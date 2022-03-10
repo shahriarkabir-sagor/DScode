@@ -1,36 +1,28 @@
 package bd.dkltd.dscode;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import bd.dkltd.dscode.myfragments.MyDialogInputPath;
-import java.util.ArrayList;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import bd.dkltd.dscode.myfragments.MyDialogInputPath;
+import java.io.File;
 
-public class FilesActivity extends AppCompatActivity {
-	
-	private String iPath;
-	private SharedPreferences sPrefs;
+public class FilesActivity extends AppCompatActivity implements ListFileFragment.OnPathReceivedCallback {
 
+    private HorizontalScrollView hsv;
+    private LinearLayout ll;
+    
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_files);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -39,26 +31,19 @@ public class FilesActivity extends AppCompatActivity {
     }
 
 	private void init() {
-		//initiate spref
-		sPrefs = getSharedPreferences("AppSettings",Context.MODE_PRIVATE);
-		iPath = sPrefs.getString("keyInternalPath",null);
-        
+        hsv = findViewById(R.id.NavWrapHSV);
+        ll = findViewById(R.id.pathNavigationHolderLL);
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Bundle bundle  = new Bundle();
-        bundle.putString("internalPath",iPath);
-        
-        Fragment fragment = new ListPathFragment();
-        fragment.setArguments(bundle);
-        ft.replace(R.id.frLayId, fragment);
+        ListPathFragment fragment = new ListPathFragment();
+        ft.add(R.id.frLayId, fragment.newInstance(), "List storage");
         ft.commit();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.fmanager_menu, menu);
+		inflater.inflate(R.menu.fileactivity_menu, menu);
 		return true;
 	}
 
@@ -69,14 +54,45 @@ public class FilesActivity extends AppCompatActivity {
 				this.finish();
 				return true;
 			case R.id.fItem3:
-				MyDialogInputPath iPathChooser = new MyDialogInputPath();
+				final MyDialogInputPath iPathChooser = new MyDialogInputPath();
                 iPathChooser.setDialogTitle("Choose path");
                 iPathChooser.setCancelable(false);
-				iPathChooser.show(getFragmentManager(),"Choose path");
+                iPathChooser.setOnPositiveListener(new MyDialogInputPath.OnPositiveListener() {
+
+                        @Override
+                        public void onClick(String pathName, String pathValue) {
+                            MyDbHelper storage_db = new MyDbHelper(getApplicationContext());
+                            long rowId = storage_db.insertRow("Storage_Path", pathName, pathValue);
+                            if (rowId == -1) {
+                                Toast.makeText(getApplicationContext(), "Row insertion failed", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Row successfully inserted", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+				iPathChooser.show(getFragmentManager(), "Choose path");
 				return true;
+            case R.id.fItem7:
+                startActivity(new Intent(this,FileSettingsActivity.class));
+                return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
-	
+    
+    @Override
+    public void onPathReceived(String currentPath) {
+        String name = new File(currentPath).getName();
+        View childView = getLayoutInflater().inflate(R.layout.layout_nav_path,ll,false);
+        TextView pathtv = childView.findViewById(R.id.pathNavTvId);
+        pathtv.setText(name);
+        ll.addView(childView);
+        hsv.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+
+                @Override
+                public void onLayoutChange(View p1, int left, int top, int right, int bottom, int p6, int p7, int p8, int p9) {
+                    hsv.fullScroll(View.FOCUS_RIGHT);
+                }
+            });
+    }
 }

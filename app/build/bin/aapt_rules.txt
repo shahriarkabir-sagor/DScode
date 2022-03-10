@@ -80,8 +80,11 @@
 # view res/layout/activity_main.xml #generated:2
 -keep class androidx.drawerlayout.widget.DrawerLayout { <init>(...); }
 
+# view res/layout/activity_main.xml #generated:46
 # view res/layout/fragment_listfile.xml #generated:33
 # view res/layout/fragment_listpath.xml #generated:7
+# view res/layout/layout_dir_rcv.xml #generated:76
+# view res/layout/layout_nested_dir_rcv.xml #generated:57
 -keep class androidx.recyclerview.widget.RecyclerView { <init>(...); }
 
 # view AndroidManifest.xml #generated:52
@@ -98,6 +101,9 @@
 
 # view AndroidManifest.xml #generated:48
 -keep class bd.dkltd.dscode.EditorSettings { <init>(...); }
+
+# view AndroidManifest.xml #generated:81
+-keep class bd.dkltd.dscode.FileSettingsActivity { <init>(...); }
 
 # view AndroidManifest.xml #generated:77
 -keep class bd.dkltd.dscode.FilesActivity { <init>(...); }
@@ -135,7 +141,7 @@
 # view res/layout/design_navigation_menu.xml #generated:17
 -keep class com.google.android.material.internal.NavigationMenuView { <init>(...); }
 
-# view res/layout/activity_main.xml #generated:18
+# view res/layout/activity_main.xml #generated:17
 -keep class com.google.android.material.navigation.NavigationView { <init>(...); }
 
 # view res/layout/design_layout_snackbar.xml #generated:18

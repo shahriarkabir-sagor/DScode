@@ -20,11 +20,169 @@
 			app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
 	</com.google.android.material.appbar.AppBarLayout>
-	
-	<WebView
-		android:id="@+id/wvId"
+
+	<RelativeLayout
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"/>
+		android:layout_height="0dp"
+		android:id="@+id/layoutappbarRelativeLayout1"
+		android:layout_weight="1.0">
+
+		<WebView
+			android:id="@+id/wvId"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:focusable="true"
+			android:focusableInTouchMode="true"/>
+
+		<ImageView
+			android:src="@drawable/ic_chevron_down_circle"
+			android:layout_width="34dp"
+			android:layout_height="34dp"
+			android:layout_alignParentRight="true"
+			android:id="@+id/labFloatingDownImg1"
+			android:layout_marginRight="10dp"
+			android:layout_marginBottom="10dp"
+			android:layout_alignParentBottom="true"/>
+
+	</RelativeLayout>
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/layoutappbarLinearLayout1"
+		android:visibility="gone">
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:weightSum="8"
+			android:background="@color/lightGrey">
+
+			<ImageView
+				android:src="@drawable/ic_dots_horizontal"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+				android:padding="6dp"/>
+
+			<ImageView
+				android:src="@drawable/ic_keyboard_tab"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+				android:padding="6dp"/>
+
+			<ImageView
+				android:src="@drawable/ic_chevron_up"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+				android:padding="6dp"/>
+
+			<ImageView
+				android:src="@drawable/ic_reply"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+				android:padding="6dp"/>
+
+			<ImageView
+				android:src="@drawable/ic_share"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+				android:padding="6dp"/>
+
+			<ImageView
+				android:src="@drawable/ic_magnify"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+				android:padding="6dp"/>
+
+			<ImageView
+				android:src="@drawable/ic_content_save"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+				android:padding="6dp"/>
+
+			<ImageView
+				android:src="@drawable/ic_menu_down"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+				android:padding="6dp"/>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:weightSum="8">
+
+			<ImageView
+				android:src="@drawable/ic_keyboard_caps"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+				android:padding="6dp"/>
+
+			<ImageView
+				android:src="@drawable/ic_chevron_left"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+				android:padding="6dp"/>
+
+			<ImageView
+				android:src="@drawable/ic_chevron_down"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+				android:padding="6dp"/>
+
+			<ImageView
+				android:src="@drawable/ic_chevron_right"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+				android:padding="6dp"/>
+
+			<ImageView
+				android:src="@drawable/ic_dots_horizontal"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+				android:padding="6dp"/>
+
+			<ImageView
+				android:src="@drawable/ic_dots_horizontal"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+				android:padding="6dp"/>
+
+			<ImageView
+				android:src="@drawable/ic_dots_horizontal"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+				android:padding="6dp"/>
+
+			<ImageView
+				android:src="@drawable/ic_dots_horizontal"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+				android:padding="6dp"/>
+
+		</LinearLayout>
+
+	</LinearLayout>
 
 </LinearLayout>
 

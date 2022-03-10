@@ -33,7 +33,7 @@
 			android:name=".MainActivity"
 			android:theme="@style/AppTheme.NoActionBar"
 			android:label="@string/app_name"
-			android:windowSoftInputMode="stateVisible">
+			android:windowSoftInputMode="stateVisible|adjustResize">
 
 			<intent-filter>
 
@@ -99,6 +99,11 @@
 			android:name=".FilesActivity"
 			android:screenOrientation="unspecified"
 			android:label="File Browser"/>
+
+		<activity
+			android:name=".FileSettingsActivity"
+			android:screenOrientation="unspecified"
+			android:label="File Settings"/>
 
 	</application>
 
