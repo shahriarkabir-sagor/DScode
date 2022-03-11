@@ -24,6 +24,7 @@ import bd.dkltd.dscode.myfragments.MyDialogListViewFragment;
 import java.io.File;
 import java.util.ArrayList;
 import android.os.Looper;
+import android.app.AlertDialog;
 
 public class ListFileFragment extends Fragment {
 
@@ -202,23 +203,99 @@ public class ListFileFragment extends Fragment {
 
                                         break;
                                     case 1:
-                                        //Delete the File
-                                        boolean isDeleted = clickedFile.delete();
-                                        if (isDeleted) {
-                                            Toast.makeText(getActivity(), dirName + " successfully deleted ", Toast.LENGTH_SHORT).show();
-                                            fList.remove(position);
-                                            fAdapter.notifyItemRemoved(position);
-                                            //now also check if the directory became empty or not
-                                            if (fList.size() == 0) {
-                                                noFileMethod(true);
+                                        //First check clicked file is directory or not
+                                        if (clickedFile.isDirectory()) {
+                                            //check if it is empty or not
+                                            if (clickedFile.listFiles().length > 0) {
+                                                //Now show an alert Dialog to notify that folder is not empty
+                                                AlertDialog warnUser = new AlertDialog.Builder(getActivity())
+                                                .setTitle("Sure to delete?")
+                                                .setMessage("The folder you have selected is not empty. Deleting this folder will also delete all the files and folder inside it")
+                                                .setNegativeButton("cancel", null)
+                                                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                                        String allLog = "";
+                                                        String errLog = "";
+
+                                                        @Override
+                                                        public void onClick(DialogInterface p1, int p2) {
+                                                            //First we need to remove all the file from a directory
+                                                            File[] topLevelFiles = clickedFile.listFiles();
+                                                            for (File singleFile : topLevelFiles) {
+                                                                if (singleFile.isDirectory()) {
+                                                                    //A recursive funtion to delete insider
+                                                                    recursiveDelete(singleFile);
+                                                                } else {
+                                                                    deleteSingleFile(singleFile);
+                                                                }
+                                                            }
+                                                            //Now call deleteItem to make visual changes in recyclerView
+                                                            //and to delete the root directory
+                                                            deleteItem(clickedFile);
+                                                            //we can show the report to the user
+                                                            
+                                                        }
+
+                                                        private void deleteSingleFile(File singleFile) {
+                                                            // store path before deleting
+                                                            String path = singleFile.getAbsolutePath();
+                                                            //delete file
+                                                            boolean isDeleted = singleFile.delete();
+                                                            if (isDeleted) {
+                                                                allLog += "Deleted " + path + "\n";
+                                                            } else {
+                                                                errLog += "Deleted " + path + "\n";
+                                                                allLog += "Deleted " + path + "\n";
+                                                            }
+                                                        }
+
+                                                        private void recursiveDelete(File receivedFile) {
+                                                            File[] fileList = receivedFile.listFiles();
+                                                            if (fileList.length > 0) {
+                                                                for (File singleFile : fileList) {
+                                                                    if (singleFile.isDirectory()) {
+                                                                        recursiveDelete(singleFile);
+                                                                    } else {
+                                                                        deleteSingleFile(singleFile);
+                                                                    }
+                                                                }
+                                                                deleteSingleFile(receivedFile);
+                                                            } else {
+                                                                //Here means empty folder
+                                                                deleteSingleFile(receivedFile);
+                                                            }
+                                                        }
+                                                    })
+                                                .create();
+                                                warnUser.show();
+                                            } else {
+                                                //Here means empty Folder, so delete it
+                                                deleteItem(clickedFile);
                                             }
                                         } else {
-                                            Toast.makeText(getActivity(), "Can't delete " + dirName, Toast.LENGTH_SHORT).show();
+                                            //Here means clickedFile is file
+                                            //We can proceed to delete
+                                            deleteItem(clickedFile);
                                         }
                                         break;
                                     default:
                                         //Unknown action
                                         Toast.makeText(getActivity(), "Can't perform this action", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            private void deleteItem(File passedFile) {
+                                //Delete the File
+                                boolean isDeleted2 = passedFile.delete();
+                                if (isDeleted2) {
+                                    Toast.makeText(getActivity(), dirName + " successfully deleted ", Toast.LENGTH_SHORT).show();
+                                    fList.remove(position);
+                                    fAdapter.notifyItemRemoved(position);
+                                    //now also check if the directory became empty or not
+                                    if (fList.size() == 0) {
+                                        noFileMethod(true);
+                                    }
+                                } else {
+                                    Toast.makeText(getActivity(), "Can't delete " + dirName, Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
