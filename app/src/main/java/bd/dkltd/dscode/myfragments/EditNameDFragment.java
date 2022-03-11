@@ -16,9 +16,9 @@ import java.io.IOException;
 public class EditNameDFragment extends DialogFragment {
 
     private EditText edt;
-    private String dirPath;
+    private String dirPath,oldPath;
     private boolean createFile,createFolder;
-    private OnSuccessListener onSuccessListener;
+    private OnResultListener onResultListener;
 
     public static final boolean CREATE_SUCCESS = true;
     public static final boolean CREATE_FAILED = false;
@@ -26,8 +26,8 @@ public class EditNameDFragment extends DialogFragment {
     //empty constructor
     public EditNameDFragment() {}
 
-    public void setOnSuccessListener(OnSuccessListener onSuccessListener) {
-        this.onSuccessListener = onSuccessListener;
+    public void setOnResultListener(OnResultListener onSuccessListener) {
+        this.onResultListener = onSuccessListener;
     }
 
     public void setForFileCreation() {
@@ -38,6 +38,12 @@ public class EditNameDFragment extends DialogFragment {
     public void setForFolderCreation() {
         this.createFile = false;
         this.createFolder = true;
+    }
+    
+    public void setForRenaming(String oldPath) {
+        this.createFile = false;
+        this.createFolder = false;
+        this.oldPath = oldPath;
     }
 
     public void checkExistance(String dirPath) {
@@ -100,7 +106,7 @@ public class EditNameDFragment extends DialogFragment {
                             File newFile = new File(dirPath + "/" + strValue);
                             boolean isExist = newFile.exists();
                             if (!isExist) {
-                                //we can create file or folder
+                                //we can create file, folder or rename it
                                 if (createFile) {
                                     //we have to create file
                                     try {
@@ -112,7 +118,7 @@ public class EditNameDFragment extends DialogFragment {
                                             logs += "File " + strValue + " has not been created\n";
                                         }
                                         try {
-                                            onSuccessListener.onSuccess(created, newFile);
+                                            onResultListener.onReturnResult(created, newFile);
                                         } catch (NullPointerException e) {
                                             logs += "Listner is not set\n";
                                         }
@@ -129,9 +135,24 @@ public class EditNameDFragment extends DialogFragment {
                                         logs += "Some error occured\n";
                                     }
                                     try {
-                                        onSuccessListener.onSuccess(created, newFile);
+                                        onResultListener.onReturnResult(created, newFile);
                                     } catch (NullPointerException e) {
                                         logs += "Listner is not set for folder\n";
+                                    }
+                                } else {
+                                    //we have to rename it
+                                    File oldFile = new File(oldPath);
+                                    boolean renamed = oldFile.renameTo(newFile);
+                                    if (renamed) {
+                                        logs += oldFile.getName() + " renamed to " + newFile.getName();
+                                        ad.dismiss();
+                                    } else {
+                                        logs += "Renamed Failed";
+                                    }
+                                    try {
+                                        onResultListener.onReturnResult(renamed,newFile);
+                                    } catch (NullPointerException e) {
+                                        logs += "Listner is not set for Renaming\n";
                                     }
                                 }
                             } else {
@@ -151,7 +172,7 @@ public class EditNameDFragment extends DialogFragment {
             logs1 += "Dialog is null";
         }
     }
-    public interface OnSuccessListener {
-        void onSuccess(boolean result, File createdFile);
+    public interface OnResultListener { 
+        void onReturnResult(boolean result, File createdFile);
     }
 }

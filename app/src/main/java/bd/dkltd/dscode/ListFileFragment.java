@@ -200,7 +200,28 @@ public class ListFileFragment extends Fragment {
                                 switch (indexPosition) {
                                     case 0:
                                         //Rename the file
+                                        String title;
+                                        String fName = clickedFile.getName();
+                                        if (clickedFile.isDirectory()) {
+                                            title = "Rename Folder:";
+                                        } else {
+                                            title = "Rename File:";
+                                        }
+                                        EditNameDFragment renamerDialog = EditNameDFragment.newInstance(title,"Rename","cancel",fName);
+                                        renamerDialog.checkExistance(parentDir.getAbsolutePath());
+                                        renamerDialog.setForRenaming(clickedFile.getAbsolutePath());
+                                        renamerDialog.setOnResultListener(new EditNameDFragment.OnResultListener() {
 
+                                                @Override
+                                                public void onReturnResult(boolean result, File renamedFile) {
+                                                    if (result == EditNameDFragment.CREATE_SUCCESS && renamedFile.exists()) {
+                                                        //File or Folder Successfully Renamed
+                                                        newFileList.set(position,renamedFile);
+                                                        fAdapter.notifyItemChanged(position);
+                                                    }
+                                                }
+                                            });
+                                        renamerDialog.show(fm, "Rename File or Folder");
                                         break;
                                     case 1:
                                         //First check clicked file is directory or not
@@ -395,12 +416,12 @@ public class ListFileFragment extends Fragment {
                 endf1.checkExistance(parentDir.getAbsolutePath());
                 endf1.setForFileCreation();
                 //set onSuccess listener here
-                endf1.setOnSuccessListener(new EditNameDFragment.OnSuccessListener() {
+                endf1.setOnResultListener(new EditNameDFragment.OnResultListener() {
 
                         @Override
-                        public void onSuccess(boolean result, File createdFile) {
+                        public void onReturnResult(boolean result, File createdFile) {
                             //check file is created or not
-                            if (result && createdFile.exists()) {
+                            if (result == EditNameDFragment.CREATE_SUCCESS && createdFile.exists()) {
                                 int indPos;
                                 if (newFileList.size() > 0) {
                                     //determine in which position the file should be added
@@ -435,12 +456,12 @@ public class ListFileFragment extends Fragment {
                 endf2.checkExistance(parentDir.getAbsolutePath());
                 endf2.setForFolderCreation();
                 //set onSuccessListener
-                endf2.setOnSuccessListener(new EditNameDFragment.OnSuccessListener() {
+                endf2.setOnResultListener(new EditNameDFragment.OnResultListener() {
 
                         @Override
-                        public void onSuccess(boolean result, final File createdFolder) {
+                        public void onReturnResult(boolean result, final File createdFolder) {
                             // check folder is created or not
-                            if (result && createdFolder.exists()) {
+                            if (result == EditNameDFragment.CREATE_SUCCESS && createdFolder.exists()) {
                                 int indPos;
                                 if(newFileList.size() > 0) {
                                     //determine in which position the file should be added
