@@ -103,11 +103,6 @@ public class MainActivity extends AppCompatActivity {
          //new method works with https means better security
          //and also new method will support js import.
          */
-//        if(!mWebView.isFocusedByDefault()) {
-//            mWebView.requestFocus();
-//        } else {
-//            //Toast.makeText(this, "Focussed by Default",Toast.LENGTH_SHORT).show();
-//        }
 		mWebView.requestFocusFromTouch();
         // ----------------------------------
 

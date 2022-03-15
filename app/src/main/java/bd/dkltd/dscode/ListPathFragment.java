@@ -118,7 +118,7 @@ public class ListPathFragment extends Fragment {
 
     private void pathInit() {
         if (rowList.getCount() == 0) {
-            internalPath = "/storage/emulated/0/";
+            internalPath = "/storage/emulated/0";
             long rowId = storage_db.insertRow("Storage_Path", "Internal Storage", internalPath);
             if (rowId == -1) {
                 Toast.makeText(getActivity(), "Row insertion failed", Toast.LENGTH_SHORT).show();

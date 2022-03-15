@@ -1,6 +1,7 @@
 package bd.dkltd.dscode;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,12 +16,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import bd.dkltd.dscode.myfragments.MyDialogInputPath;
 import java.io.File;
+import java.util.ArrayList;
 
 public class FilesActivity extends AppCompatActivity implements ListFileFragment.OnPathReceivedCallback {
 
     private HorizontalScrollView hsv;
     private LinearLayout ll;
-    
+    private MyDbHelper storage_db;
+    private Cursor rowList;
+    private ArrayList<String> folderNavigationEntries;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +38,8 @@ public class FilesActivity extends AppCompatActivity implements ListFileFragment
 	private void init() {
         hsv = findViewById(R.id.NavWrapHSV);
         ll = findViewById(R.id.pathNavigationHolderLL);
+        storage_db = new MyDbHelper(this);
+        folderNavigationEntries = new ArrayList<String>();
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ListPathFragment fragment = new ListPathFragment();
@@ -73,19 +80,24 @@ public class FilesActivity extends AppCompatActivity implements ListFileFragment
 				iPathChooser.show(getFragmentManager(), "Choose path");
 				return true;
             case R.id.fItem7:
-                startActivity(new Intent(this,FileSettingsActivity.class));
+                startActivity(new Intent(this, FileSettingsActivity.class));
                 return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
-    
+
     @Override
     public void onPathReceived(String currentPath) {
-        String name = new File(currentPath).getName();
-        View childView = getLayoutInflater().inflate(R.layout.layout_nav_path,ll,false);
+        File file = new File(currentPath);
+        String storageName = getStorageName(currentPath);
+        if (storageName == null) {
+            storageName = file.getName();
+        }
+        View childView = getLayoutInflater().inflate(R.layout.layout_nav_path, ll, false);
         TextView pathtv = childView.findViewById(R.id.pathNavTvId);
-        pathtv.setText(name);
+        folderNavigationEntries.add(currentPath);
+        pathtv.setText(storageName);
         ll.addView(childView);
         hsv.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
 
@@ -94,5 +106,30 @@ public class FilesActivity extends AppCompatActivity implements ListFileFragment
                     hsv.fullScroll(View.FOCUS_RIGHT);
                 }
             });
+    }
+
+    private String getStorageName(String path) {
+        String result = null;
+        String pathValue = null;
+        rowList = storage_db.fetchRowFrom("Storage_Path");
+        if (rowList.getCount() > 0) {
+            while (rowList.moveToNext()) {
+                pathValue = rowList.getString(1);
+                if (path.equals(pathValue)) {
+                    result = rowList.getString(0);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (folderNavigationEntries.size() > 0) {
+            int lastIndex = folderNavigationEntries.size() -1;
+            folderNavigationEntries.remove(lastIndex);
+            ll.removeViewAt(lastIndex);
+        }
+        super.onBackPressed();
     }
 }

@@ -3,6 +3,6 @@
     
     <item
         android:id="@+id/jhvv2"
-        android:title="Item"/>
+        android:title="Directory"/>
     
 </menu>

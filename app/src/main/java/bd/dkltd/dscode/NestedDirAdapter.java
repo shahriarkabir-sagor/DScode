@@ -118,6 +118,7 @@ public class NestedDirAdapter extends RecyclerView.Adapter<NestedDirAdapter.Nest
                 }
             }
         };
+        viewHolder.getMenuIcon().setOnClickListener(optionClickListener);
     }
 
     private boolean hasFile(ArrayList<File> array) {

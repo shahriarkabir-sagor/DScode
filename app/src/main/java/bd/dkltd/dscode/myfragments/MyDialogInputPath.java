@@ -67,9 +67,6 @@ public class MyDialogInputPath extends DialogFragment {
 				public void onClick(View p1) {
 					int requestcode = 1;
 					Intent choosePath = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-					choosePath.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-					choosePath.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-					choosePath.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
 					try {
 						startActivityForResult(Intent.createChooser(choosePath, "Choose Directory"), requestcode);
 					} catch (Exception e) {
@@ -105,6 +102,8 @@ public class MyDialogInputPath extends DialogFragment {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 1 && resultCode == getActivity().RESULT_OK && data != null) {
+            int takeFlags = data.getFlags() & (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            
             String inputName = edt.getText().toString();
 			String treePath = data.getData().getPath();
             String fileName = new File(treePath).getName();
