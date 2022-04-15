@@ -1,2 +1,64 @@
 # DScode
-No Information available right now.
+Also known as DS Code, is an unfinished IDE for android. The design of this App is inspired from [Acode](https://github.com/deadlyjack/Acode). Initially I was trying to build it to Provide IDE experience to every mobile coder. This project is initially build using Modded AIDE-IDE for android since the the official one not pushing any update.
+
+### Features:
+non-ticked are planned but not implemented yet.
+- [x] Built in file Manager
+  - [x] Create File
+  - [x] Create Folder
+  - [x] Delete File
+  - [x] Delete Folder
+  - [x] Search in folder
+  - [x] Path Navigation
+  - [ ] Search sub-directories
+  - [ ] File icon by type
+- [x] File Tree for open project
+  - [ ] New File
+  - [ ] New Folder
+  - [ ] Insert File
+  - [ ] Cut
+  - [ ] Copy
+  - [ ] Paste
+- [x] Preferences saving
+- [x] Custom Dialog
+  - [x] String Accepting Dialog
+  - [x] Integer Accepting Dialog
+  - [x] Float Accepting Dialog
+  - [x] List Accepting Dialog
+- [x] Code Editor
+  - [x] CodeMirror (js)
+  - [ ] Ace Editor (js)
+  - [ ] Sora Editor (java)
+  - [ ] azclub-ltd/CodeView
+  - [ ] Color Picker
+  - [ ] Image preview in line gutter
+- [ ] File Editor
+  - [ ] Character Encoding
+  - [ ] space type
+- [ ] Language server
+  - [ ] Error checking
+  - [ ] Auto Completion
+  - [ ] Api info (since, removed, deprecated)
+  - [ ] Increemental Build system
+- [ ] Terminal
+  - [ ] Termux
+  - [ ] DocShell
+- [ ] Plugins support
+  - [ ] Web (html, css, js)
+  - [ ] php (Web + php)
+  - [ ] java
+    - [ ] Eclipse
+    - [ ] openjdk-11
+    - [ ] openjdk-17
+  - [ ] Android
+    - [ ] Gradle
+    - [ ] java
+    - [ ] xml designer
+  - [ ] JavaScript extened
+  - [ ] C
+  - [ ] C++
+  - [ ] C#
+- [ ] Git support
+  - [ ] via Github Apps
+  - [ ] via auth token
+- [ ] Docker support
